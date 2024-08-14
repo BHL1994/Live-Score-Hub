@@ -91,7 +91,8 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository{
                 where app_user_id = ?;
                 """;
 
-        boolean updated = jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getAppUserId()) > 0;
+        boolean updated = jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.isEnabled(),
+                user.getAppUserId()) > 0;
 
         if(updated) {
             updateRoles(user);

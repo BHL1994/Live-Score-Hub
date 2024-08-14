@@ -1,0 +1,21 @@
+@url = http://localhost:8080
+
+###
+POST {{url}}/create_account HTTP/1.1
+Content-Type: application/json
+
+{
+  "username":"BLowe",
+  "email": "BLowe@gmail.com",
+  "password":"P@ssword1",
+  "roles": "ADMIN"
+}
+
+###
+POST {{url}}/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+  "username":"BLowe",
+  "password":"P@ssword1"
+}

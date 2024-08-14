@@ -16,7 +16,13 @@ public class SecurityConfig {
         http.csrf().disable();
         http.cors();
 
-        http.authorizeRequests().antMatchers("/api/public/**").permitAll().anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests()
+                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/create_account").permitAll()
+                .antMatchers("/refresh_token").authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
     }

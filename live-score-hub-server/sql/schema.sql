@@ -64,5 +64,10 @@ create table notification (
 		foreign key(game_id)
         references game(game_id)
 );
+
+insert into app_role (`name`) values
+    ('USER'),
+    ('ADMIN');
+
     
     

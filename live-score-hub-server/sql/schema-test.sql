@@ -30,7 +30,9 @@ create table app_user_role (
 
 create table team (
 	team_id int primary key auto_increment,
-    team_name varchar(100) not null,
+    `name` varchar(100) not null,
+    city varchar(100) not null,
+    team varchar(100) not null,
     league varchar(25) not null,
     abbreviation varchar(10) not null,
     logo_url varchar(255)
@@ -95,6 +97,14 @@ begin
 		values
 		(1, 2),
 		(2, 1);
+
+    INSERT INTO team (name, city, team, league, abbreviation, logo_url) VALUES
+        ('Chicago White Sox', 'Chicago', 'White Sox', 'MLB', 'CWS', 'https://a.espncdn.com/i/teamlogos/mlb/500/chw
+        .png'),
+        ('Detroit Tigers', 'Detroit', 'Tigers', 'MLB', 'DET', 'https://a.espncdn.com/i/teamlogos/mlb/500/det.png'),
+        ('Kansas City Royals', 'Kansas City', 'Royals', 'MLB', 'KC', 'https://a.espncdn.com/i/teamlogos/mlb/500/kc
+        .png')
+        ;
         
 end //
 

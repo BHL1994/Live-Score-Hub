@@ -47,4 +47,22 @@ public class TeamJdbcTemplateRepository implements TeamRepository {
                 """;
         return jdbcTemplate.query(sql, new TeamMapper(), homeCity, homeTeam, awayCity, awayTeam);
     }
+
+    @Override
+    public Team findByName(String name) {
+        final String sql = """
+                	select
+                	team_id,
+                    `name`,
+                    city,
+                    team,
+                    league,
+                    abbreviation,
+                    logo_url
+                from team
+                where `name` = ?;
+                """;
+
+        return jdbcTemplate.query(sql, new TeamMapper(), name).stream().findFirst().orElse(null);
+    }
 }

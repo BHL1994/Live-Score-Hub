@@ -21,4 +21,8 @@ public class TeamService {
     public List<Team> findTeamsByCityAndName(String homeCity, String homeTeam, String awayCity, String awayTeam) {
         return repository.findTeamsByCityAndName(homeCity, homeTeam, awayCity, awayTeam);
     }
+
+    public Team findByName(String name) {
+        return repository.findByName(name);
+    }
 }

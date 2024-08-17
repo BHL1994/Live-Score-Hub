@@ -46,4 +46,14 @@ class TeamServiceTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void shouldFindTeamByName() {
+        Team expected = new Team(1,"Chicago White Sox", "Chicago", "White Sox", League.MLB, "CWS", "https://a.espncdn.com/i/teamlogos/mlb/500/chw.png");
+
+        when(repository.findByName("Chicago White Sox")).thenReturn(expected);
+
+        Team actual = service.findByName("Chicago White Sox");
+        assertEquals(expected, actual);
+    }
 }

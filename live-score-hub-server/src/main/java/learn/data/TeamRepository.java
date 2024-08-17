@@ -8,4 +8,6 @@ public interface TeamRepository {
     Team findById(int id);
 
     List<Team> findTeamsByCityAndName(String homeCity, String homeTeam, String awayCity, String awayTeam);
+
+    Team findByName(String name);
 }

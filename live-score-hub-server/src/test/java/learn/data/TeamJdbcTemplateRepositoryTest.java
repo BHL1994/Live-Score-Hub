@@ -46,4 +46,12 @@ class TeamJdbcTemplateRepositoryTest {
         List<Team> actual = repository.findTeamsByCityAndName("Chicago", "White Sox", "Detroit", "Tigers");
         assertEquals(expected, actual);
     }
+
+    @Test
+    void shouldFindWhiteSoxByName() {
+        Team expected = new Team(1,"Chicago White Sox", "Chicago", "White Sox", League.MLB, "CWS", "https://a.espncdn.com/i/teamlogos/mlb/500/chw.png");
+        Team actual = repository.findByName("Chicago White Sox");
+
+        assertEquals(expected, actual);
+    }
 }

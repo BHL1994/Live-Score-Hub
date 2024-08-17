@@ -18,7 +18,7 @@ public class SecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
-                .antMatchers("/create_account").permitAll()
+                .antMatchers("/create_account").permitAll().antMatchers("/messages/**").permitAll()
                 .antMatchers("/refresh_token").authenticated()
                 .and()
                 .sessionManagement()

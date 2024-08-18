@@ -36,6 +36,7 @@ public class GameFetchService {
 //            sportspageFeedService.fetchAndSaveGamesForDateRange(startDate, weekEndDate);
 //
 //            startDate = startDate.plusDays(7);
+//            System.out.println("done");
 //        }
 //    }
 

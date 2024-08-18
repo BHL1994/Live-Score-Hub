@@ -17,12 +17,12 @@ public class SocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(session);
+        super.afterConnectionEstablished(session);
         System.out.println("Connected sessions: " + sessions.size());
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        // Broadcast the message to all connected clients
         for (WebSocketSession s : sessions) {
             s.sendMessage(message);
         }

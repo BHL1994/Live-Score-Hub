@@ -97,11 +97,12 @@ public class Game {
     public String toString() {
         return "Game{" +
                 "id=" + id +
-                ", homeId=" + home +
-                ", awayId=" + away +
+                ", home=" + home.getName() +
+                ", away=" + away.getName() +
                 ", gameDate=" + gameDate +
                 ", homeScore=" + homeScore +
                 ", awayScore=" + awayScore +
                 '}';
     }
+
 }

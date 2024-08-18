@@ -1,4 +1,4 @@
-html {
+ /* html {
     height: 100%;
 }
 
@@ -20,7 +20,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 
 .nav-start {
-    /* border: 2px dotted yellow; */
+    border: 2px dotted yellow;
     display: flex;
     padding: .5em 2em;
     align-items: center;
@@ -42,7 +42,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-nav {
-    /* border: 2px dotted purple; */
+    border: 2px dotted purple; 
     display: flex;
     flex-direction: row;
     gap: 4em;
@@ -60,4 +60,4 @@ p, h1, h2, h3, h4, h5, h6 {
     transition: all ease .2s;
 }
 
-  
+    */

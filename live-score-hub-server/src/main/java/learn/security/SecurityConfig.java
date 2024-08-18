@@ -17,7 +17,7 @@ public class SecurityConfig {
         http.cors();
 
         http.authorizeRequests()
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/authenticate").permitAll().antMatchers("/live-scores").permitAll()
                 .antMatchers("/create_account").permitAll().antMatchers("/messages/**").permitAll()
                 .antMatchers("/refresh_token").authenticated()
                 .and()

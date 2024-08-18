@@ -60,7 +60,7 @@ public class SportspageFeedService {
                     .collect(Collectors.toList());
 
             for (Game game : games) {
-                gameService.add(game);  // Use GameService to add the game
+                gameService.add(game);
             }
         }
     }
@@ -108,17 +108,14 @@ public class SportspageFeedService {
         Team homeTeam = teamService.findByName(homeName);
         Team awayTeam = teamService.findByName(awayName);
 
-        if (homeTeam == null) {
-            System.out.println("Home Team not found in database: " + homeName);
-        }
-        if (awayTeam == null) {
-            System.out.println("Away Team not found in database: " + awayName);
-        }
-
         game.setHome(homeTeam);
         game.setAway(awayTeam);
         game.setGameDate(gameDate);
-        game.setId((Integer) gameData.get("gameId"));
+
+        System.out.println("In convert to game");
+        System.out.println("Fetched Home Team: " + (homeTeam != null ? homeTeam.getName() : "null"));
+        System.out.println("Fetched Away Team: " + (awayTeam != null ? awayTeam.getName() : "null"));
+
 
         Map<String, Object> scoreboard = (Map<String, Object>) gameData.get("scoreboard");
 

@@ -26,3 +26,6 @@ GET https://sportspage-feeds.p.rapidapi.com/games?league=MLB HTTP/1.1
 Content-Type: application/json
 X-RapidAPI-Key: 0996ff329emshe772ea55758fe91p185bdejsn54b9509c4a00
 X-RapidAPI-Host: sportspage-feeds.p.rapidapi.com
+
+###
+ws://localhost:8080/live-scores

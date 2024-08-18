@@ -43,7 +43,7 @@ public class TeamJdbcTemplateRepository implements TeamRepository {
                     abbreviation,
                     logo_url
                 from team
-                where city = ? and team = ? or city = ? and team = ?;
+                where (city = ? and team = ?) or (city = ? and team = ?);
                 """;
         return jdbcTemplate.query(sql, new TeamMapper(), homeCity, homeTeam, awayCity, awayTeam);
     }

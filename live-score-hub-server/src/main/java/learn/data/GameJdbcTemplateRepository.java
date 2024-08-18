@@ -83,7 +83,7 @@ public class GameJdbcTemplateRepository implements GameRepository{
     }
 
     @Override
-    public Game findByDateAndTeams(LocalDateTime date, String homeName, String awayName) {
+    public Game findByDateAndTeams(LocalDateTime date, String league, String homeName, String awayName) {
         final String sql = """
                 select
                     g.game_id,
@@ -107,10 +107,9 @@ public class GameJdbcTemplateRepository implements GameRepository{
                 from game g
                 inner join team h on g.home_id = h.team_id
                 inner join team a on g.away_id = a.team_id
-                where h.`name` = ? and a.`name` = ?
-                and DATE(g.game_date) = ?;
+                where (h.name = ? and h.league = ?) and (a.name = ? and a.league = ?) and g.game_date = ?;
                 """;
-        return jdbcTemplate.query(sql, new GameMapper(), homeName, awayName, date.toLocalDate()).stream().findFirst().orElse(null);
+        return jdbcTemplate.query(sql, new GameMapper(), homeName, league, awayName, league, date).stream().findFirst().orElse(null);
     }
 
     @Override

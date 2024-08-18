@@ -1,21 +1,76 @@
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Header from './Components/Header';
 import LogIn from './Components/LogIn';
 import Home from './Components/Home';
 import SignUp from './Components/SignUp';
 import "./App.css";
+import LiveScores from './Components/LiveScores';
+import AuthContext from './Context/AuthContext';
+import { jwtDecode } from 'jwt-decode';
 
+const LOCAL_STORAGE_TOKEN_KEY = "liveScoreHubToken";
+ 
 
 export default function App() {
+  const [user, setUser] = useState(null);
+
+
+  const [restoreLoginAttemptCompleted, setRestoreLoginAttemptCompleted] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+    if (token) {
+      login(token);
+    }
+    setRestoreLoginAttemptCompleted(true);
+  }, []);
+
+  const login = (token) => {
+    localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+
+    const { sub: username, authorities: authoritiesString } = jwtDecode(token);
+
+    const user = {
+      username,
+      token,
+      hasRole(role) {
+        return this.roles.includes(role);
+      }
+    };
+
+    console.log(user);
+    setUser(user);
+    return user;
+  }
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+  };
+
+  const auth = {
+    user: user ? {...user} : null,
+    login,
+    logout
+  };
+
+  if(!restoreLoginAttemptCompleted) {
+    return null;
+  }
+
+
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home></Home>} />
-        <Route path="/signup" element={<SignUp></SignUp>}/>
-        <Route path="/login" element={<LogIn></LogIn>} />
-      </Routes>
-    </Router>
+    <AuthContext.Provider value={auth}>
+      <Router>
+        <Header/>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/games" element={<LiveScores />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={!user ? <LogIn /> : <Navigate to="/" replace={true} /> } />
+        </Routes>
+      </Router>
+    </AuthContext.Provider>
   );
 }

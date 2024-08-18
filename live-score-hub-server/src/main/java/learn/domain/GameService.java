@@ -25,8 +25,8 @@ public class GameService {
         return repository.findByDate(date);
     }
 
-    public Game findByDateAndTeams(LocalDateTime date, String homeName, String awayName) {
-        return repository.findByDateAndTeams(date, homeName, awayName);
+    public Game findByDateAndTeams(LocalDateTime date, String league, String homeName, String awayName) {
+        return repository.findByDateAndTeams(date, league, homeName, awayName);
     }
 
     public List<Game> findByTeam(String city, String team) {
@@ -34,27 +34,47 @@ public class GameService {
     }
 
     public Game add(Game game) {
-        Game existingGame = repository.findByDateAndTeams(game.getGameDate(), game.getHome().getName(),
+        System.out.println("In game Service add.");
+        System.out.println("Fetched game Home Team: " + (game != null ? game.getHome().getName() :
+                "null"));
+        System.out.println("Fetched game Away Team: " + (game != null ? game.getAway().getName() :
+                "null"));
+        Game existingGame = repository.findByDateAndTeams(game.getGameDate(), game.getHome().getLeague().getName(),
+                game.getHome().getName(),
                 game.getAway().getName());
 
+        System.out.println("In game Service add.");
+        System.out.println("Fetched existing Home Team: " + (existingGame != null ? existingGame.getHome().getName() :
+                "null"));
+        System.out.println("Fetched existing Away Team: " + (existingGame != null ? existingGame.getAway().getName() :
+                "null"));
 
         if(existingGame == null) {
-            repository.add(game);
-            return game;
+            if(repository.add(game) != null) {
+                return game;
+            }
         } else if (existingGame.getHomeScore() != game.getHomeScore() || existingGame.getAwayScore() != game.getAwayScore()) {
             existingGame.setHomeScore(game.getHomeScore());
             existingGame.setAwayScore(game.getAwayScore());
-            update(existingGame);
-            return existingGame;
+            if(update(existingGame)){
+                return existingGame;
+            }
         }
         return null;
     }
 
     public boolean update(Game game) {
+        System.out.println("In game Service before .");
+        System.out.println("Fetched Home Team: " + (game != null ? game.getHome().getName() : "null"));
+        System.out.println("Fetched Away Team: " + (game != null ? game.getAway().getName() : "null"));
         boolean success = repository.update(game);
+        System.out.println("In game Service after update .");
+        System.out.println("Fetched Home Team: " + (game != null ? game.getHome().getName() : "null"));
+        System.out.println("Fetched Away Team: " + (game != null ? game.getAway().getName() : "null"));
         if (success) {
-            String gameUpdate = String.format("Game updated: %s vs %s - %d:%d",
-                    game.getHome().getName(), game.getAway().getName(), game.getHomeScore(), game.getAwayScore());
+            String gameUpdate = String.format("Game %s updated: %s vs %s - %d:%d",
+                    game.getId(), game.getHome().getName(), game.getAway().getName(), game.getHomeScore(),
+                    game.getAwayScore());
             gameUpdateService.sendGameUpdate(gameUpdate);
             return true;
         }

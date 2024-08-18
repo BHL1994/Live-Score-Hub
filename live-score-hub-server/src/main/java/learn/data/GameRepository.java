@@ -10,7 +10,7 @@ public interface GameRepository {
 
     List<Game> findByDate(LocalDateTime date);
 
-    Game findByDateAndTeams(LocalDateTime date, String homeName, String awayName);
+    Game findByDateAndTeams(LocalDateTime date, String league, String homeName, String awayName);
 
     List<Game> findByTeam(String city, String team);
 

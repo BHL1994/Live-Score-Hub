@@ -8,6 +8,7 @@ import "./App.css";
 import LiveScores from './Components/LiveScores';
 import AuthContext from './Context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
+import Error from './Components/Error';
 
 const LOCAL_STORAGE_TOKEN_KEY = "liveScoreHubToken";
  
@@ -68,6 +69,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<LiveScores />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/error" element={<Error />}/>
           <Route path="/login" element={!user ? <LogIn /> : <Navigate to="/" replace={true} /> } />
         </Routes>
       </Router>

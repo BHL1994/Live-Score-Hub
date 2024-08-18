@@ -15,7 +15,6 @@ export default function LogIn() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         const response = await fetch('http://localhost:8080/authenticate', {
             method: 'POST',
             headers: { 
@@ -33,7 +32,7 @@ export default function LogIn() {
         auth.login(jwt_token);
         navigate("/");
     } else if (response.status === 403) {
-      setErrors(['Login failed.']);
+        setErrors(['Login failed. Incorrect username or password.']);
     } else {
         setErrors(['Unknown error.']);
     }

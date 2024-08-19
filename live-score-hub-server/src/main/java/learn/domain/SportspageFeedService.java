@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -111,10 +113,11 @@ public class SportspageFeedService {
         Map<String, Object> schedule = (Map<String, Object>) gameData.get("schedule");
         String dateString = (String) schedule.get("date");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-        LocalDateTime gameDate = LocalDateTime.parse(dateString, formatter);
+        ZonedDateTime gameDateUtc = ZonedDateTime.parse(dateString, formatter);
 
-        game.setGameDate(gameDate);
+        ZonedDateTime gameDateEastern = gameDateUtc.withZoneSameInstant(ZoneId.of("America/New_York"));
 
+        game.setGameDate(gameDateEastern.toLocalDateTime());
         game.setStatus((String) gameData.get("status"));
 
         Map<String, Object> details = (Map<String, Object>) gameData.get("details");

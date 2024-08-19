@@ -28,4 +28,5 @@ X-RapidAPI-Key: 0996ff329emshe772ea55758fe91p185bdejsn54b9509c4a00
 X-RapidAPI-Host: sportspage-feeds.p.rapidapi.com
 
 ###
-ws://localhost:8080/live-scores
+GET http://localhost:8080/api/games?league=MLB&date=2024-08-19
+Content-Type: application/json

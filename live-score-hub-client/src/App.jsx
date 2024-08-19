@@ -67,7 +67,7 @@ export default function App() {
         <Header/>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/games" element={<Games />} />
+          <Route path="/games/:league" element={<Games />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/error" element={<Error />}/>
           <Route path="/login" element={!user ? <LogIn /> : <Navigate to="/" replace={true} /> } />

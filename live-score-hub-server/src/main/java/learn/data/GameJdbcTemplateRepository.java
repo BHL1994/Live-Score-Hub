@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -156,6 +157,40 @@ public class GameJdbcTemplateRepository implements GameRepository{
                 where h.city = ? and h.team = ? or a.city = ? and a.team = ?;
                 """;
         return jdbcTemplate.query(sql, new GameMapper(), city, team, city, team);
+    }
+
+    public List<Game> findGamesByLeagueAndDate(String league, LocalDate date) {
+        final String sql = """
+                select
+                    g.game_id,
+                    g.game_date,
+                    g.game_status,
+                    g.period,
+                    g.league,
+                    g.time_remaining,
+                    g.home_score,
+                    g.away_score,
+                    h.team_id as home_team_id,
+                    h.name as home_name,
+                    h.city as home_city,
+                    h.team as home_team,
+                    h.league as home_league,
+                    h.abbreviation as home_abbreviation,
+                    h.logo_url as home_logo_url,
+                    a.team_id as away_team_id,
+                    a.name as away_name,
+                    a.city as away_city,
+                    a.team as away_team,
+                    a.league as away_league,
+                    a.abbreviation as away_abbreviation,
+                    a.logo_url as away_logo_url
+                from game g
+                inner join team h on g.home_id = h.team_id
+                inner join team a on g.away_id = a.team_id
+                where g.league = ? and DATE(g.game_date) = ?;
+                """;
+
+        return jdbcTemplate.query(sql, new GameMapper(), league, Timestamp.valueOf(date.atStartOfDay()));
     }
 
     @Override

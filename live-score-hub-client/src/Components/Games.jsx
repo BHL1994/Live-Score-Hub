@@ -1,43 +1,72 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import ScoreCard from './ScoreCard';
+import { useEffect } from 'react';
 
-const Games = () => {
-  const [messages, setMessages] = useState([]);
+export default function Games() {
+    const [date, setDate] = useState(new Date());
+    const [games, setGames] = useState([]);
+    const { league } = useParams(); 
 
-  useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080/live-scores');
 
-    ws.onopen = () => {
-      console.log('WebSocket connection opened');
-    };
+    const formattedDate = date.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+    });
 
-    ws.onerror = (error) => {
-        console.error('WebSocket Error:', error);
-      };
+    useEffect(() => {
+        const fetchGames = async () => {
+            try {
+                setGames([]);
+                const formattedDateForAPI = date.toISOString().split('T')[0];
+                console.log(`Fetching games for: League=${league}, Date=${formattedDateForAPI}`);
+    
+                const response = await fetch(
+                    `http://localhost:8080/api/games?league=${league}&date=${formattedDateForAPI}`
+                );
+    
+                if (response.status === 204) {
+                    console.log("No games for today.");
+                    setGames([]);
+                } else if (response.ok) {
+                    const gamesData = await response.json();
+                    setGames(gamesData);
 
-    ws.onmessage = (event) => {
-      console.log('Message received:', event.data);
-      setMessages((prevMessages) => [...prevMessages, event.data]);
-    };
+                } else {
+                    console.error('Failed to fetch games:', response.status, response.statusText);
+                    setGames([]);
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                setGames([]);
+            }
+        };
+    
+        fetchGames();
+    }, [league, date]);
+    
 
-    ws.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
 
-    return () => {
-      ws.close();
-    };
-  }, []);
-
-  return (
-    <div>
-      <h1>Games</h1>
-      <ul>
-        {messages.map((message, index) => (
-          <li key={index}>{message}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default Games;
+    return (
+        <div className='text-center'>
+            <h2>
+                {league} Games for {formattedDate}
+            </h2>
+            <DatePicker
+                inline
+                selected={date}
+                onChange={(date) => setDate(date)}
+            />
+            <div className="game-list mt-4">
+                {games.length > 0 ? (
+                    games.map(game => <ScoreCard key={game.game_id} game={game} />)
+                ) : (
+                    <p>No games available for this date.</p>
+                )}
+            </div>
+        </div>
+    );
+}

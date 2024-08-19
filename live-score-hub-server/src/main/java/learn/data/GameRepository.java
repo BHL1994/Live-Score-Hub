@@ -2,6 +2,7 @@ package learn.data;
 
 import learn.models.Game;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface GameRepository {
 
     List<Game> findByTeam(String city, String team);
 
+    List<Game> findGamesByLeagueAndDate(String league, LocalDate date);
 
     Game add(Game game);
 

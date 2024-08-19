@@ -4,6 +4,7 @@ import learn.data.GameRepository;
 import learn.models.Game;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,6 +32,10 @@ public class GameService {
 
     public List<Game> findByTeam(String city, String team) {
         return repository.findByTeam(city, team);
+    }
+
+    public List<Game> findGamesByLeagueAndDate(String league, LocalDate date) {
+        return repository.findGamesByLeagueAndDate(league, date);
     }
 
     public Game add(Game game) {

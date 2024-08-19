@@ -11,7 +11,7 @@ public class Notification {
     @JsonProperty("notification_id")
     private int id;
     @JsonProperty("user_id")
-    private AppUser appUser;
+    private int userId;
     @JsonProperty("game_id")
     private Game game;
     @JsonProperty("notification_type")
@@ -21,10 +21,10 @@ public class Notification {
 
     public Notification(){}
 
-    public Notification(int id, AppUser appUser, Game game, NotificationType notificationType,
+    public Notification(int id, int userId, Game game, NotificationType notificationType,
                         LocalDateTime notificationTime) {
         this.id = id;
-        this.appUser = appUser;
+        this.userId = userId;
         this.game = game;
         this.notificationType = notificationType;
         this.notificationTime = notificationTime;
@@ -38,12 +38,12 @@ public class Notification {
         this.id = id;
     }
 
-    public AppUser getAppUser() {
-        return appUser;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setAppUser(AppUser appUser) {
-        this.appUser = appUser;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Game getGame() {
@@ -75,19 +75,19 @@ public class Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return id == that.id && appUser == that.appUser && game == that.game && notificationType == that.notificationType && Objects.equals(notificationTime, that.notificationTime);
+        return id == that.id && userId == that.userId && game == that.game && notificationType == that.notificationType && Objects.equals(notificationTime, that.notificationTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, appUser, game, notificationType, notificationTime);
+        return Objects.hash(id, userId, game, notificationType, notificationTime);
     }
 
     @Override
     public String toString() {
         return "Notification{" +
                 "id=" + id +
-                ", userId=" + appUser +
+                ", userId=" + userId +
                 ", gameId=" + game +
                 ", notificationType=" + notificationType +
                 ", notificationTime=" + notificationTime +

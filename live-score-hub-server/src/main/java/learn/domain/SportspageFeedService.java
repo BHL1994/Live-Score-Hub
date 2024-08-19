@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.data.GameRepository;
 import learn.data.TeamRepository;
 import learn.models.Game;
+import learn.models.League;
 import learn.models.Team;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -95,38 +96,48 @@ public class SportspageFeedService {
     private Game convertToGame(Map<String, Object> gameData) {
         Game game = new Game();
 
+        game.setId((Integer) gameData.get("gameId"));
+
         Map<String, Object> teams = (Map<String, Object>) gameData.get("teams");
         String homeName = (String) ((Map<String, Object>) teams.get("home")).get("team");
         String awayName = (String) ((Map<String, Object>) teams.get("away")).get("team");
-
-
-        Map<String, Object> schedule = (Map<String, Object>) gameData.get("schedule");
-        String dateString = (String) schedule.get("date");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-        LocalDateTime gameDate = LocalDateTime.parse(dateString, formatter);
 
         Team homeTeam = teamService.findByName(homeName);
         Team awayTeam = teamService.findByName(awayName);
 
         game.setHome(homeTeam);
         game.setAway(awayTeam);
+
+        Map<String, Object> schedule = (Map<String, Object>) gameData.get("schedule");
+        String dateString = (String) schedule.get("date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+        LocalDateTime gameDate = LocalDateTime.parse(dateString, formatter);
+
         game.setGameDate(gameDate);
 
-        System.out.println("In convert to game");
-        System.out.println("Fetched Home Team: " + (homeTeam != null ? homeTeam.getName() : "null"));
-        System.out.println("Fetched Away Team: " + (awayTeam != null ? awayTeam.getName() : "null"));
+        game.setStatus((String) gameData.get("status"));
 
+        Map<String, Object> details = (Map<String, Object>) gameData.get("details");
+        game.setLeague(League.valueOf((String) details.get("league")));
 
         Map<String, Object> scoreboard = (Map<String, Object>) gameData.get("scoreboard");
 
-        if(scoreboard == null) {
-            game.setHomeScore(0);
-            game.setAwayScore(0);
-        } else {
+        if (scoreboard != null) {
+            game.setPeriod((int) scoreboard.get("currentPeriod"));
+
             Map<String, Object> score = (Map<String, Object>) scoreboard.get("score");
             game.setHomeScore((int) score.get("home"));
             game.setAwayScore((int) score.get("away"));
+
+            String periodTimeRemaining = (String) scoreboard.get("periodTimeRemaining");
+            game.setTimeRemaining(periodTimeRemaining != null ? periodTimeRemaining : null);
+        } else {
+            game.setHomeScore(0);
+            game.setAwayScore(0);
+            game.setPeriod(0);
+            game.setTimeRemaining(null);
         }
+
 
         return game;
     }

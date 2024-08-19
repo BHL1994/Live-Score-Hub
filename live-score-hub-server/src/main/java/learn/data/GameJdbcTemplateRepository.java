@@ -26,6 +26,10 @@ public class GameJdbcTemplateRepository implements GameRepository{
                 select
                     g.game_id,
                     g.game_date,
+                    g.game_status,
+                    g.period,
+                    g.league,
+                    g.time_remaining,
                     g.home_score,
                     g.away_score,
                     h.team_id,
@@ -57,6 +61,10 @@ public class GameJdbcTemplateRepository implements GameRepository{
                 select
                     g.game_id,
                     g.game_date,
+                    g.game_status,
+                    g.period,
+                    g.league,
+                    g.time_remaining,
                     g.home_score,
                     g.away_score,
                     h.team_id,
@@ -88,6 +96,10 @@ public class GameJdbcTemplateRepository implements GameRepository{
                 select
                     g.game_id,
                     g.game_date,
+                    g.game_status,
+                    g.period,
+                    g.league,
+                    g.time_remaining,
                     g.home_score,
                     g.away_score,
                     h.team_id,
@@ -118,6 +130,10 @@ public class GameJdbcTemplateRepository implements GameRepository{
                 select
                     g.game_id,
                     g.game_date,
+                    g.game_status,
+                    g.period,
+                    g.league,
+                    g.time_remaining,
                     g.home_score,
                     g.away_score,
                     h.team_id,
@@ -140,30 +156,33 @@ public class GameJdbcTemplateRepository implements GameRepository{
                 where h.city = ? and h.team = ? or a.city = ? and a.team = ?;
                 """;
         return jdbcTemplate.query(sql, new GameMapper(), city, team, city, team);
-
     }
 
     @Override
     public Game add(Game game) {
         final String sql = """
-                insert into game (home_id, away_id, game_date, home_score, away_score)
-                values (?, ?, ?, ?, ?);
-                """;
+                    insert into game (game_id, home_id, away_id, game_date, game_status, period, league, time_remaining, home_score, away_score)
+                    values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    """;
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, game.getHome().getId());
-            ps.setInt(2, game.getAway().getId());
-            ps.setTimestamp(3, Timestamp.valueOf(game.getGameDate()));
-            ps.setInt(4, game.getHomeScore());
-            ps.setInt(5, game.getAwayScore());
+            ps.setInt(1, game.getId());
+            ps.setInt(2, game.getHome().getId());
+            ps.setInt(3, game.getAway().getId());
+            ps.setTimestamp(4, Timestamp.valueOf(game.getGameDate()));
+            ps.setString(5, game.getStatus());
+            ps.setInt(6, game.getPeriod());
+            ps.setString(7, game.getLeague().toString());
+            ps.setString(8, game.getTimeRemaining());
+            ps.setInt(9, game.getHomeScore());
+            ps.setInt(10, game.getAwayScore());
             return ps;
         }, keyHolder);
 
         if(rowsAffected > 0) {
-            game.setId(keyHolder.getKey().intValue());
             return game;
         }
 
@@ -177,6 +196,10 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     home_id = ?,
                     away_id = ?,
                     game_date = ?,
+                    game_status = ?,
+                    period = ?,
+                    league = ?,
+                    time_remaining = ?,
                     home_score = ?,
                     away_score = ?
                 where game_id = ?;
@@ -185,7 +208,11 @@ public class GameJdbcTemplateRepository implements GameRepository{
         return jdbcTemplate.update(sql,
                 game.getHome().getId(),
                 game.getAway().getId(),
-                game.getGameDate(),
+                Timestamp.valueOf(game.getGameDate()),
+                game.getStatus(),
+                game.getPeriod(),
+                game.getLeague().toString(),
+                game.getTimeRemaining(),
                 game.getHomeScore(),
                 game.getAwayScore(),
                 game.getId()) > 0;

@@ -35,7 +35,10 @@ public class GameMapper implements RowMapper<Game> {
 
         game.setHome(home);
         game.setAway(away);
-
+        game.setStatus(rs.getString("game_status"));
+        game.setPeriod(rs.getInt("period"));
+        game.setLeague(League.valueOf(rs.getString("league")));
+        game.setTimeRemaining(rs.getString("time_remaining"));
         game.setGameDate(rs.getTimestamp("game_date").toLocalDateTime());
         game.setHomeScore(rs.getInt("home_score"));
         game.setAwayScore(rs.getInt("away_score"));

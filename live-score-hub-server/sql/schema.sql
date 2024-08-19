@@ -39,10 +39,14 @@ create table team (
 );
 
 create table game (
-	game_id int primary key auto_increment,
+	game_id int primary key,
     home_id int not null,
     away_id int not null,
     game_date datetime not null,
+    game_status varchar(50),
+    period int,
+    league varchar(25) not null,
+    time_remaining varchar(10),
     home_score int default 0,
     away_score int default 0,
 	constraint fk_game_home_id

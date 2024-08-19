@@ -16,22 +16,22 @@ public class GameMapper implements RowMapper<Game> {
         game.setId(rs.getInt("game_id"));
 
         Team home = new Team();
-        home.setId(rs.getInt("team_id"));
-        home.setName(rs.getString("name"));
-        home.setCity(rs.getString("city"));
-        home.setTeam(rs.getString("team"));
-        home.setLeague(League.valueOf(rs.getString("league")));
-        home.setAbbreviation(rs.getString("abbreviation"));
-        home.setLogoUrl(rs.getString("logo_url"));
+        home.setId(rs.getInt("home_team_id"));
+        home.setName(rs.getString("home_name"));
+        home.setCity(rs.getString("home_city"));
+        home.setTeam(rs.getString("home_team"));
+        home.setLeague(League.valueOf(rs.getString("home_league")));
+        home.setAbbreviation(rs.getString("home_abbreviation"));
+        home.setLogoUrl(rs.getString("home_logo_url"));
 
         Team away = new Team();
-        away.setId(rs.getInt("team_id"));
-        away.setName(rs.getString("name"));
-        away.setCity(rs.getString("city"));
-        away.setTeam(rs.getString("team"));
-        away.setLeague(League.valueOf(rs.getString("league")));
-        away.setAbbreviation(rs.getString("abbreviation"));
-        away.setLogoUrl(rs.getString("logo_url"));
+        away.setId(rs.getInt("away_team_id"));
+        away.setName(rs.getString("away_name"));
+        away.setCity(rs.getString("away_city"));
+        away.setTeam(rs.getString("away_team"));
+        away.setLeague(League.valueOf(rs.getString("away_league")));
+        away.setAbbreviation(rs.getString("away_abbreviation"));
+        away.setLogoUrl(rs.getString("away_logo_url"));
 
         game.setHome(home);
         game.setAway(away);

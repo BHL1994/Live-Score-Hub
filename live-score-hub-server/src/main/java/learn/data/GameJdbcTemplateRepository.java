@@ -32,23 +32,23 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
-                    h.team_id,
-                    h.name,
-                    h.city,
-                    h.team,
-                    h.league,
-                    h.abbreviation,
-                    h.logo_url,
-                    a.team_id,
-                    a.name,
-                    a.city,
-                    a.team,
-                    a.league,
-                    a.abbreviation,
-                    a.logo_url
+                    h.team_id as home_team_id,
+                    h.name as home_name,
+                    h.city as home_city,
+                    h.team as home_team,
+                    h.league as home_league,
+                    h.abbreviation as home_abbreviation,
+                    h.logo_url as home_logo_url,
+                    a.team_id as away_team_id,
+                    a.name as away_name,
+                    a.city as away_city,
+                    a.team as away_team,
+                    a.league as away_league,
+                    a.abbreviation as away_abbreviation,
+                    a.logo_url as away_logo_url
                 from game g
                 inner join team h on g.home_id = h.team_id
-                inner join team a on g.home_id = a.team_id
+                inner join team a on g.away_id = a.team_id
                 where g.game_id = ?;
                 """;
 
@@ -67,24 +67,24 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
-                    h.team_id,
-                    h.name,
-                    h.city,
-                    h.team,
-                    h.league,
-                    h.abbreviation,
-                    h.logo_url,
-                    a.team_id,
-                    a.name,
-                    a.city,
-                    a.team,
-                    a.league,
-                    a.abbreviation,
-                    a.logo_url
+                    h.team_id as home_team_id,
+                    h.name as home_name,
+                    h.city as home_city,
+                    h.team as home_team,
+                    h.league as home_league,
+                    h.abbreviation as home_abbreviation,
+                    h.logo_url as home_logo_url,
+                    a.team_id as away_team_id,
+                    a.name as away_name,
+                    a.city as away_city,
+                    a.team as away_team,
+                    a.league as away_league,
+                    a.abbreviation as away_abbreviation,
+                    a.logo_url as away_logo_url
                 from game g
                 inner join team h on g.home_id = h.team_id
                 inner join team a on g.away_id = a.team_id
-                where DATE(g.game_date) = ?;
+                where g.game_date = ?;
                 """;
 
         return jdbcTemplate.query(sql, new GameMapper(), date.toLocalDate());
@@ -102,20 +102,20 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
-                    h.team_id,
-                    h.name,
-                    h.city,
-                    h.team,
-                    h.league,
-                    h.abbreviation,
-                    h.logo_url,
-                    a.team_id,
-                    a.name,
-                    a.city,
-                    a.team,
-                    a.league,
-                    a.abbreviation,
-                    a.logo_url
+                    h.team_id as home_team_id,
+                    h.name as home_name,
+                    h.city as home_city,
+                    h.team as home_team,
+                    h.league as home_league,
+                    h.abbreviation as home_abbreviation,
+                    h.logo_url as home_logo_url,
+                    a.team_id as away_team_id,
+                    a.name as away_name,
+                    a.city as away_city,
+                    a.team as away_team,
+                    a.league as away_league,
+                    a.abbreviation as away_abbreviation,
+                    a.logo_url as away_logo_url
                 from game g
                 inner join team h on g.home_id = h.team_id
                 inner join team a on g.away_id = a.team_id
@@ -136,20 +136,20 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
-                    h.team_id,
-                    h.name,
-                    h.city,
-                    h.team,
-                    h.league,
-                    h.abbreviation,
-                    h.logo_url,
-                    a.team_id,
-                    a.name,
-                    a.city,
-                    a.team,
-                    a.league,
-                    a.abbreviation,
-                    a.logo_url
+                    h.team_id as home_team_id,
+                    h.name as home_name,
+                    h.city as home_city,
+                    h.team as home_team,
+                    h.league as home_league,
+                    h.abbreviation as home_abbreviation,
+                    h.logo_url as home_logo_url,
+                    a.team_id as away_team_id,
+                    a.name as away_name,
+                    a.city as away_city,
+                    a.team as away_team,
+                    a.league as away_league,
+                    a.abbreviation as away_abbreviation,
+                    a.logo_url as away_logo_url
                 from game g
                 inner join team h on g.home_id = h.team_id
                 inner join team a on g.away_id = a.team_id

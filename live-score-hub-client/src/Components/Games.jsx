@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const LiveScores = () => {
+const Games = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const LiveScores = () => {
 
   return (
     <div>
-      <h1>Live Scores</h1>
+      <h1>Games</h1>
       <ul>
         {messages.map((message, index) => (
           <li key={index}>{message}</li>
@@ -40,4 +40,4 @@ const LiveScores = () => {
   );
 };
 
-export default LiveScores;
+export default Games;

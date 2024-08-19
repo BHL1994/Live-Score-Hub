@@ -16,7 +16,7 @@ public class GameUpdateService {
         try {
             socketHandler.broadcastScoreUpdate(gameUpdate);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println("Error sending game update: " + e.getMessage());
         }
     }
 }

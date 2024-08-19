@@ -5,7 +5,7 @@ import LogIn from './Components/LogIn';
 import Home from './Components/Home';
 import SignUp from './Components/SignUp';
 import "./App.css";
-import LiveScores from './Components/LiveScores';
+import Games from './Components/Games';
 import AuthContext from './Context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import Error from './Components/Error';
@@ -67,7 +67,7 @@ export default function App() {
         <Header/>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/games" element={<LiveScores />} />
+          <Route path="/games" element={<Games />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/error" element={<Error />}/>
           <Route path="/login" element={!user ? <LogIn /> : <Navigate to="/" replace={true} /> } />

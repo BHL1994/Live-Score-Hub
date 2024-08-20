@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ScoreCard from './ScoreCard';
-import { useEffect } from 'react';
 
 export default function Games() {
     const [date, setDate] = useState(new Date());
     const [games, setGames] = useState([]);
-    const { league } = useParams(); 
+    const { league } = useParams();
+    const [ws, setWs] = useState(null); // State for WebSocket connection
 
     const formattedDate = date.toLocaleDateString('en-US', {
         month: 'long',
@@ -20,20 +20,21 @@ export default function Games() {
         const fetchGames = async () => {
             try {
                 setGames([]);
-                const formattedDateForAPI = date.toISOString().split('T')[0];
+                const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                console.log(localDate);
+                const formattedDateForAPI = localDate.toISOString().split('T')[0];
                 console.log(`Fetching games for: League=${league}, Date=${formattedDateForAPI}`);
-    
+
                 const response = await fetch(
                     `http://localhost:8080/api/games?league=${league}&date=${formattedDateForAPI}`
                 );
-    
+
                 if (response.status === 204) {
                     console.log("No games for today.");
                     setGames([]);
                 } else if (response.ok) {
                     const gamesData = await response.json();
                     setGames(gamesData);
-
                 } else {
                     console.error('Failed to fetch games:', response.status, response.statusText);
                     setGames([]);
@@ -43,10 +44,37 @@ export default function Games() {
                 setGames([]);
             }
         };
-    
+
         fetchGames();
     }, [league, date]);
-    
+
+    useEffect(() => {
+        // Initialize WebSocket connection
+        const socket = new WebSocket('ws://localhost:8080/live-scores');
+        setWs(socket);
+
+        // Handle incoming messages (live updates)
+        socket.onmessage = (event) => {
+            try {
+                const gameUpdate = JSON.parse(event.data);
+                setGames((prevGames) => {
+                    return prevGames.map((game) =>
+                        game.game_id === gameUpdate.game_id ? { ...game, ...gameUpdate } : game
+                    );
+                });
+            } catch (error) {
+                console.error("Error parsing WebSocket message:", error, event.data);
+            }
+        };
+
+        // Cleanup WebSocket connection on component unmount
+        return () => {
+            if (socket) {
+                socket.close();
+            }
+        };
+    }, []); // Empty dependency array ensures this effect runs once on mount
+
     return (
         <div className="container mx-auto text-center">
             <h2>
@@ -59,12 +87,12 @@ export default function Games() {
                     onChange={(date) => setDate(date)}
                 />
             </div>
-            <div className="game-list m-5">
+            <div className="grid gap-3 mt-5">
                 <div className="row justify-content-center">
                     {games.length > 0 ? (
-                        games.map((game, index) => (
-                            <div 
-                                className={`col-md-5 mb-4 mx-3 ${games.length % 2 !== 0 && index === games.length - 1 ? 'mx-auto' : ''}`} 
+                        games.map((game) => (
+                            <div
+                                className={`col-md-5 mb-4 mx-3`}
                                 key={game.game_id}
                                 style={{
                                     transition: 'transform 0.3s, box-shadow 0.3s',

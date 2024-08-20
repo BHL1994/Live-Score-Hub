@@ -1,5 +1,6 @@
 package learn.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.data.GameRepository;
 import learn.models.Game;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,13 @@ import java.util.List;
 public class GameService {
     private final GameRepository repository;
     private final GameUpdateService gameUpdateService;
+    private final ObjectMapper objectMapper;
 
-    public GameService(GameRepository repository, GameUpdateService gameUpdateService) {
+
+    public GameService(GameRepository repository, GameUpdateService gameUpdateService, ObjectMapper objectMapper) {
         this.repository = repository;
         this.gameUpdateService = gameUpdateService;
+        this.objectMapper = objectMapper;
     }
 
     public Game findById(int id) {
@@ -62,10 +66,13 @@ public class GameService {
     public boolean update(Game game) {
         boolean success = repository.update(game);
         if (success) {
-            String gameUpdate = String.format("Game %s updated: %s vs %s - %d:%d",
-                    game.getId(), game.getHome().getName(), game.getAway().getName(), game.getHomeScore(),
-                    game.getAwayScore());
-            gameUpdateService.sendGameUpdate(gameUpdate);
+            try {
+                // Convert Game object to JSON string
+                String gameUpdateJson = objectMapper.writeValueAsString(game);
+                gameUpdateService.sendGameUpdate(gameUpdateJson);
+            } catch (Exception e) {
+                System.err.println("Error sending game update: " + e.getMessage());
+            }
 
 
             //Game notification logic

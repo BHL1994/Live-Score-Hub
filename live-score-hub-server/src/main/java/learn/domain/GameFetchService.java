@@ -1,5 +1,6 @@
 package learn.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.data.GameRepository;
 import learn.models.Game;
 import learn.websockets.SocketHandler;
@@ -16,11 +17,13 @@ public class GameFetchService {
     private final SportspageFeedService sportspageFeedService;
     private final GameRepository gameRepository;
     private final GameUpdateService gameUpdateService;
+    private final ObjectMapper objectMapper;
 
-    public GameFetchService(SportspageFeedService sportspageFeedService, GameRepository gameRepository, GameUpdateService gameUpdateService) {
+    public GameFetchService(SportspageFeedService sportspageFeedService, GameRepository gameRepository, GameUpdateService gameUpdateService, ObjectMapper objectMapper) {
         this.sportspageFeedService = sportspageFeedService;
         this.gameRepository = gameRepository;
         this.gameUpdateService = gameUpdateService;
+        this.objectMapper = objectMapper;
     }
 
 //    @Scheduled(cron = "*/15 * * * * *")
@@ -40,7 +43,7 @@ public class GameFetchService {
 //        }
 //    }
 
-//    @Scheduled(cron = "*/10 * * * * *")
+//    @Scheduled(cron = "*/60 * * * * *")
 //    public void fetchGamesFromAPI() throws Exception {
 //        sportspageFeedService.fetchAndSaveGamesForToday();
 //
@@ -52,7 +55,9 @@ public class GameFetchService {
         List<Game> liveGames = gameRepository.findByDate(now);
 
         for (Game game : liveGames) {
-            gameUpdateService.sendGameUpdate(game.toString());
+            // Convert the Game object to JSON string before sending
+            String gameUpdateJson = objectMapper.writeValueAsString(game);
+            gameUpdateService.sendGameUpdate(gameUpdateJson);
         }
     }
 }

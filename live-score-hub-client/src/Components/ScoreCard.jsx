@@ -21,42 +21,44 @@ const ScoreCard = ({ game }) => {
 
   const gameStatusSymbol = isFinal ? 'Final' :
                             isCanceled ? 'Canceled' : 
-                            isLive ? (
-                              game.league === 'MLB' 
-                              ? `${game.top_bottom} of the ${game.inning}` 
-                              : `${game.time_remaining}, Q${game.period}`
-                            ) : 
+                            isLive ? 'Live' : 
                             isScheduled ? `${formattedTime}` : '';
+
+  const gameMiddleText = isLive ? (
+    game.league === 'MLB' 
+    ? `${game.period} inning`
+    : `${game.time_remaining}, Q${game.period}`
+  ) : '';
 
   return (
     <div className="card mb-3">
-        <h5 class="card-header">
-            {gameStatusSymbol}
-        </h5>
+      <h5 className="card-header">
+        {isLive ? <span className="text-danger">{gameStatusSymbol}</span> : gameStatusSymbol}
+      </h5>
       <div className="card-body d-flex justify-content-between align-items-center">
-        <div className="list-group align-items-center">
+        <div className="text-center flex-grow-1">
           <h6 className="text-muted">{game.away_id.city}</h6>
           <h5 className="card-title">{game.away_id.team}</h5>
           <img src={game.away_id.logo_url} alt={game.away_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
         </div>
-        <div className="list-group-horizontal">
+        <div className="d-flex align-items-center justify-content-center">
           {(isLive || isFinal) && (
-            <p className={`card-text mx-2 ${awayScoreClass}`}>{game.away_score}</p>
+            <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', fontFamily: 'sans-serif', textAlign: 'center', margin: '0 0.5rem' }}>{game.away_score}</p>
           )}
-          <h6 className="text-muted mx-3">
-            {isLive ? <span className="text-danger">{gameStatusSymbol}</span> : gameStatusSymbol}
-          </h6>
+          {isLive && (
+            <p className="text-danger mx-1" style={{ fontSize: '1.5rem', textAlign: 'center', margin: '0 0.5rem' }}>{gameMiddleText}</p>
+          )}
           {(isLive || isFinal) && (
-            <p className={`card-text mx-2 ${homeScoreClass}`}>{game.home_score}</p>
+            <p className={`card-text ${homeScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', fontFamily: 'sans-serif', textAlign: 'center', margin: '0 0.5rem' }}>{game.home_score}</p>
           )}
         </div>
-        <div className="list-group align-items-center">
+        <div className="text-center flex-grow-1">
           <h6 className="text-muted">{game.home_id.city}</h6>
           <h5 className="card-title">{game.home_id.team}</h5>
           <img src={game.home_id.logo_url} alt={game.home_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
         </div>
       </div>
-      <div class="card-footer text-body-secondary">
+      <div className="card-footer text-body-secondary">
         2 days ago
       </div>
     </div>

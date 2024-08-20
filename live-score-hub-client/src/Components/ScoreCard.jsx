@@ -66,10 +66,14 @@ const inningNumber = `${game.period}${game.period === 1 ? 'st'
             <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.away_score}</p>
           )}
           {isLive && (
-            <p className="text-danger mx-1" style={{ margin: '0 0.5rem' }}>{gameMiddleText}</p>
+            <div className="text-danger mx-1" style={{ margin: '0 0.5rem' }}>
+                {gameMiddleText}
+            </div>
           )}
           {(isLive || isFinal) && (
-            <p className={`card-text ${homeScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.home_score}</p>
+            <p className={`card-text ${homeScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>
+                {game.home_score}
+            </p>
           )}
         </div>
         <div className="d-flex align-items-center" style={{ flexBasis: '33%', justifyContent: 'flex-end' }}>

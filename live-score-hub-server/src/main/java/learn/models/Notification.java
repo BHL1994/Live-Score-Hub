@@ -75,7 +75,7 @@ public class Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return id == that.id && userId == that.userId && game == that.game && notificationType == that.notificationType && Objects.equals(notificationTime, that.notificationTime);
+        return id == that.id && userId == that.userId && Objects.equals(game, that.game) && notificationType == that.notificationType && Objects.equals(notificationTime, that.notificationTime);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class Notification {
         return "Notification{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", gameId=" + game +
+                ", game=" + game +
                 ", notificationType=" + notificationType +
                 ", notificationTime=" + notificationTime +
                 '}';

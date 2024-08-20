@@ -11,6 +11,8 @@ public interface NotificationRepository {
 
     List<Notification> findByGameId(int gameId);
 
+    Notification findByUserIdAndGameId(int userId, int gameId);
+
     Notification add(Notification notification);
 
     boolean update(Notification notification);

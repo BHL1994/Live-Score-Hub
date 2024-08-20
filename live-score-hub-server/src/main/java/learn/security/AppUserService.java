@@ -74,22 +74,22 @@ public class AppUserService implements UserDetailsService {
         Result<AppUser> result = new Result<>();
 
         if(username == null || username.isBlank()) {
-            result.addMessage(ActionStatus.INVALID, "username is required");
+            result.addMessage(ActionStatus.INVALID, "Username is required");
             return result;
         }
 
         if (email == null || email.isBlank()) {
-            result.addMessage(ActionStatus.INVALID, "email is required");
+            result.addMessage(ActionStatus.INVALID, "Email is required");
             return result;
         }
 
         if (password == null) {
-            result.addMessage(ActionStatus.INVALID, "password is required");
+            result.addMessage(ActionStatus.INVALID, "Password is required");
             return result;
         }
 
         if (username.length() > 50) {
-            result.addMessage(ActionStatus.INVALID, "username must be less than 50 characters");
+            result.addMessage(ActionStatus.INVALID, "Username must be less than 50 characters");
         }
 
         if(!isValidEmailAddress(email)) {
@@ -98,7 +98,7 @@ public class AppUserService implements UserDetailsService {
 
         if (!isValidPassword(password)) {
             result.addMessage(ActionStatus.INVALID,
-                    "password must be at least 8 character and contain a digit," +
+                    "Password must be at least 8 character and contain a digit," +
                             " a letter, and a non-digit/non-letter");
         }
 

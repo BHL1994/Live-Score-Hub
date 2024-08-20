@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .antMatchers("/authenticate").permitAll().antMatchers("/live-scores").permitAll()
                 .antMatchers("/create_account").permitAll().antMatchers("/messages/**").permitAll().antMatchers(HttpMethod.GET,
                         "/api/games").permitAll()
+                .antMatchers("/api/notifications/*").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/refresh_token").authenticated()
                 .and()
                 .sessionManagement()

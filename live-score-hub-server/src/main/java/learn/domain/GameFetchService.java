@@ -26,7 +26,7 @@ public class GameFetchService {
         this.objectMapper = objectMapper;
     }
 
-//    @Scheduled(cron = "*/15 * * * * *")
+//    @Scheduled(cron = "*/60 * * * * *")
 //    public void fetchGamesForDateRange() {
 //        LocalDate startDate = LocalDate.of(2024, 5, 1);
 //        LocalDate endDate = LocalDate.of(2024, 9, 18);
@@ -43,12 +43,12 @@ public class GameFetchService {
 //        }
 //    }
 
-    @Scheduled(cron = "*/60 * * * * *")
-    public void fetchGamesFromAPI() throws Exception {
-        sportspageFeedService.fetchAndSaveGamesForToday();
-
-        notifyClientsForLiveGames();
-    }
+//    @Scheduled(cron = "*/60 * * * * *")
+//    public void fetchGamesFromAPI() throws Exception {
+//        sportspageFeedService.fetchAndSaveGamesForToday();
+//
+//        notifyClientsForLiveGames();
+//    }
 
     private void notifyClientsForLiveGames() throws Exception {
         LocalDateTime now = LocalDateTime.now();

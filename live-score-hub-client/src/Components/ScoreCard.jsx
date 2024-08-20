@@ -36,26 +36,30 @@ const ScoreCard = ({ game }) => {
         {isLive ? <span className="text-danger">{gameStatusSymbol}</span> : gameStatusSymbol}
       </h5>
       <div className="card-body d-flex justify-content-between align-items-center">
-        <div className="text-center flex-grow-1">
-          <h6 className="text-muted">{game.away_id.city}</h6>
-          <h5 className="card-title">{game.away_id.team}</h5>
-          <img src={game.away_id.logo_url} alt={game.away_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
+        <div className="d-flex align-items-center" style={{ flexBasis: '33%', justifyContent: 'flex-start' }}>
+          <div className="text-left">
+            <h6 className="text-muted">{game.away_id.city}</h6>
+            <h5 className="card-title">{game.away_id.team}</h5>
+            <img src={game.away_id.logo_url} alt={game.away_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
+          </div>
         </div>
-        <div className="d-flex align-items-center justify-content-center">
+        <div className="d-flex align-items-center justify-content-center" style={{ flexBasis: '33%', textAlign: 'center' }}>
           {(isLive || isFinal) && (
-            <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', fontFamily: 'sans-serif', textAlign: 'center', margin: '0 0.5rem' }}>{game.away_score}</p>
+            <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.away_score}</p>
           )}
           {isLive && (
-            <p className="text-danger mx-1" style={{ fontSize: '1.5rem', textAlign: 'center', margin: '0 0.5rem' }}>{gameMiddleText}</p>
+            <p className="text-danger mx-1" style={{ fontSize: '1.5rem', margin: '0 0.5rem' }}>{gameMiddleText}</p>
           )}
           {(isLive || isFinal) && (
-            <p className={`card-text ${homeScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', fontFamily: 'sans-serif', textAlign: 'center', margin: '0 0.5rem' }}>{game.home_score}</p>
+            <p className={`card-text ${homeScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.home_score}</p>
           )}
         </div>
-        <div className="text-center flex-grow-1">
-          <h6 className="text-muted">{game.home_id.city}</h6>
-          <h5 className="card-title">{game.home_id.team}</h5>
-          <img src={game.home_id.logo_url} alt={game.home_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
+        <div className="d-flex align-items-center" style={{ flexBasis: '33%', justifyContent: 'flex-end' }}>
+          <div className="text-right">
+            <h6 className="text-muted">{game.home_id.city}</h6>
+            <h5 className="card-title">{game.home_id.team}</h5>
+            <img src={game.home_id.logo_url} alt={game.home_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
+          </div>
         </div>
       </div>
       <div className="card-footer text-body-secondary">

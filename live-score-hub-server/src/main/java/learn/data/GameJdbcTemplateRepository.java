@@ -33,6 +33,8 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
+                    g.home_period_scores,
+                    g.away_period_scores,
                     h.team_id as home_team_id,
                     h.name as home_name,
                     h.city as home_city,
@@ -68,6 +70,8 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
+                    g.home_period_scores,
+                    g.away_period_scores,
                     h.team_id as home_team_id,
                     h.name as home_name,
                     h.city as home_city,
@@ -103,6 +107,8 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
+                    g.home_period_scores,
+                    g.away_period_scores,
                     h.team_id as home_team_id,
                     h.name as home_name,
                     h.city as home_city,
@@ -137,6 +143,8 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
+                    g.home_period_scores,
+                    g.away_period_scores,
                     h.team_id as home_team_id,
                     h.name as home_name,
                     h.city as home_city,
@@ -170,6 +178,8 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     g.time_remaining,
                     g.home_score,
                     g.away_score,
+                    g.home_period_scores,
+                    g.away_period_scores,
                     h.team_id as home_team_id,
                     h.name as home_name,
                     h.city as home_city,
@@ -196,8 +206,8 @@ public class GameJdbcTemplateRepository implements GameRepository{
     @Override
     public Game add(Game game) {
         final String sql = """
-                    insert into game (game_id, home_id, away_id, game_date, game_status, period, league, time_remaining, home_score, away_score)
-                    values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    insert into game (game_id, home_id, away_id, game_date, game_status, period, league, time_remaining, home_score, away_score, home_period_scores, away_period_scores)
+                    values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                     """;
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -214,6 +224,8 @@ public class GameJdbcTemplateRepository implements GameRepository{
             ps.setString(8, game.getTimeRemaining());
             ps.setInt(9, game.getHomeScore());
             ps.setInt(10, game.getAwayScore());
+            ps.setString(11, game.getHomePeriodScores());
+            ps.setString(12, game.getAwayPeriodScores());
             return ps;
         }, keyHolder);
 
@@ -236,7 +248,9 @@ public class GameJdbcTemplateRepository implements GameRepository{
                     league = ?,
                     time_remaining = ?,
                     home_score = ?,
-                    away_score = ?
+                    away_score = ?,
+                    home_period_scores = ?,
+                    away_period_scores = ?
                 where game_id = ?;
                 """;
 
@@ -250,6 +264,8 @@ public class GameJdbcTemplateRepository implements GameRepository{
                 game.getTimeRemaining(),
                 game.getHomeScore(),
                 game.getAwayScore(),
+                game.getHomePeriodScores(),
+                game.getAwayPeriodScores(),
                 game.getId()) > 0;
     }
 

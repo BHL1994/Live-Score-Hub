@@ -132,6 +132,17 @@ public class SportspageFeedService {
             game.setHomeScore((int) score.get("home"));
             game.setAwayScore((int) score.get("away"));
 
+            List<Integer> homePeriods = (List<Integer>) score.get("homePeriods");
+            List<Integer> awayPeriods = (List<Integer>) score.get("awayPeriods");
+
+            if (homePeriods != null && awayPeriods != null) {
+                game.setHomePeriodScores(homePeriods.stream().map(String::valueOf).collect(Collectors.joining(",")));
+                game.setAwayPeriodScores(awayPeriods.stream().map(String::valueOf).collect(Collectors.joining(",")));
+            } else {
+                game.setHomePeriodScores("");
+                game.setAwayPeriodScores("");
+            }
+
             String periodTimeRemaining = (String) scoreboard.get("periodTimeRemaining");
             game.setTimeRemaining(periodTimeRemaining != null ? periodTimeRemaining : null);
         } else {
@@ -139,6 +150,8 @@ public class SportspageFeedService {
             game.setAwayScore(0);
             game.setPeriod(0);
             game.setTimeRemaining(null);
+            game.setHomePeriodScores("");
+            game.setAwayPeriodScores("");
         }
 
 

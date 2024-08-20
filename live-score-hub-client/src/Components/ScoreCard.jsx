@@ -20,20 +20,32 @@ const ScoreCard = ({ game, isLoggedIn }) => {
   };
   const formattedTime = gameDateUTC.toLocaleString('en-US', options) + ' EST';
 
-  const gameStatusSymbol = isFinal ? 'Final' :
-                            isCanceled ? 'Canceled' : 
-                            isLive ? 'Live' : 
-                            isScheduled ? `${formattedTime}` : '';
+  const gameStatusSymbol = isFinal ? 'Final' : 
+    isCanceled ? 'Canceled' : isLive ? 'Live' : isScheduled ? `${formattedTime}` : '';
 
-  const gameMiddleText = isLive ? (
-    game.league === 'MLB' 
-    ? `${game.period} inning`
-    : `${game.time_remaining}, Q${game.period}`
-  ) : '';
+const totalPeriods = game.away_period_scores.length + game.home_period_scores.length;
+
+const isTopInning = totalPeriods % 2 === 0;
+                          
+const inningLabel = isTopInning ? 'Top' : 'Bot';
+
+const inningNumber = `${game.period}${game.period === 1 ? 'st' 
+    : game.period === 2 ? 'nd' 
+    : game.period === 3 ? 'rd' : 'th'}`;
+                          
+    const gameMiddleText = isLive ? 
+        ( game.league === 'MLB' ? 
+        ( <div className="d-flex flex-column align-items-center">
+            <span>{inningLabel}</span> 
+            <span>{inningNumber}</span> 
+          </div> ) : 
+        ( <div className="d-flex flex-column align-items-center" style={{ fontSize: '0.75rem' }}>   <span>Q{game.period}</span> 
+            <span>{game.time_remaining}</span>
+        </div> ) ) : '';
+
 
   const handleFavoriteClick = () => {
     setIsFavorited(!isFavorited);
-    // Logic to save favorite status to the backend if necessary
   };
 
   return (
@@ -54,7 +66,7 @@ const ScoreCard = ({ game, isLoggedIn }) => {
             <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.away_score}</p>
           )}
           {isLive && (
-            <p className="text-danger mx-1" style={{ fontSize: '1.5rem', margin: '0 0.5rem' }}>{gameMiddleText}</p>
+            <p className="text-danger mx-1" style={{ margin: '0 0.5rem' }}>{gameMiddleText}</p>
           )}
           {(isLive || isFinal) && (
             <p className={`card-text ${homeScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.home_score}</p>

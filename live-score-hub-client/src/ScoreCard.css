@@ -1,5 +1,4 @@
-/* ScoreCard.css */
-
+/* 
 .card-body {
     padding: 1.25rem;
   }
@@ -24,7 +23,7 @@
   }
   
   .btn-link {
-    color: yellow; /* Yellow color for the star */
+    color: yellow;
   }
   
   .favorite-star {
@@ -47,4 +46,4 @@
     flex-basis: 33%;
     text-align: center;
   }
-  
+   */

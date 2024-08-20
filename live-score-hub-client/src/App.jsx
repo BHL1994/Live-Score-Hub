@@ -4,7 +4,6 @@ import Header from './Components/Header';
 import LogIn from './Components/LogIn';
 import Home from './Components/Home';
 import SignUp from './Components/SignUp';
-import "./App.css";
 import Games from './Components/Games';
 import AuthContext from './Context/AuthContext';
 import { jwtDecode } from 'jwt-decode';

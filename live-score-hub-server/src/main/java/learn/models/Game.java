@@ -26,21 +26,26 @@ public class Game {
     private int homeScore;
     @JsonProperty("away_score")
     private int awayScore;
+    @JsonProperty("away_period_scores")
+    private String homePeriodScores;
+    @JsonProperty("home_period_scores")
+    private String awayPeriodScores;
 
     public Game() {}
 
-    public Game(int id, Team home, Team away, LocalDateTime gameDate, String status, int period, League league,
-                String timeRemaining, int homeScore, int awayScore) {
-        this.id = id;
-        this.home = home;
-        this.away = away;
-        this.gameDate = gameDate;
-        this.status = status;
-        this.period = period;
-        this.league = league;
-        this.timeRemaining = timeRemaining;
-        this.homeScore = homeScore;
+    public Game(String awayPeriodScores, String homePeriodScores, int awayScore, int homeScore, String timeRemaining, League league, int period, String status, LocalDateTime gameDate, Team away, Team home, int id) {
+        this.awayPeriodScores = awayPeriodScores;
+        this.homePeriodScores = homePeriodScores;
         this.awayScore = awayScore;
+        this.homeScore = homeScore;
+        this.timeRemaining = timeRemaining;
+        this.league = league;
+        this.period = period;
+        this.status = status;
+        this.gameDate = gameDate;
+        this.away = away;
+        this.home = home;
+        this.id = id;
     }
 
     public int getId() {
@@ -123,17 +128,33 @@ public class Game {
         this.awayScore = awayScore;
     }
 
+    public String getHomePeriodScores() {
+        return homePeriodScores;
+    }
+
+    public void setHomePeriodScores(String homePeriodScores) {
+        this.homePeriodScores = homePeriodScores;
+    }
+
+    public String getAwayPeriodScores() {
+        return awayPeriodScores;
+    }
+
+    public void setAwayPeriodScores(String awayPeriodScores) {
+        this.awayPeriodScores = awayPeriodScores;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return id == game.id && period == game.period && timeRemaining == game.timeRemaining && homeScore == game.homeScore && awayScore == game.awayScore && Objects.equals(home, game.home) && Objects.equals(away, game.away) && Objects.equals(gameDate, game.gameDate) && Objects.equals(status, game.status) && league == game.league;
+        return id == game.id && period == game.period && homeScore == game.homeScore && awayScore == game.awayScore && Objects.equals(home, game.home) && Objects.equals(away, game.away) && Objects.equals(gameDate, game.gameDate) && Objects.equals(status, game.status) && league == game.league && Objects.equals(timeRemaining, game.timeRemaining) && Objects.equals(homePeriodScores, game.homePeriodScores) && Objects.equals(awayPeriodScores, game.awayPeriodScores);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, home, away, gameDate, status, period, league, timeRemaining, homeScore, awayScore);
+        return Objects.hash(id, home, away, gameDate, status, period, league, timeRemaining, homeScore, awayScore, homePeriodScores, awayPeriodScores);
     }
 
     @Override
@@ -146,9 +167,11 @@ public class Game {
                 ", status='" + status + '\'' +
                 ", period=" + period +
                 ", league=" + league +
-                ", timeRemaining=" + timeRemaining +
+                ", timeRemaining='" + timeRemaining + '\'' +
                 ", homeScore=" + homeScore +
                 ", awayScore=" + awayScore +
+                ", homePeriodScores='" + homePeriodScores + '\'' +
+                ", awayPeriodScores='" + awayPeriodScores + '\'' +
                 '}';
     }
 }

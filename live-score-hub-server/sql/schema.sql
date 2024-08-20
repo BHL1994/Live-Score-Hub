@@ -49,6 +49,8 @@ create table game (
     time_remaining varchar(10),
     home_score int default 0,
     away_score int default 0,
+	home_period_scores varchar(100),
+    away_period_scores varchar(100),
 	constraint fk_game_home_id
 		foreign key(home_id)
         references team(team_id),

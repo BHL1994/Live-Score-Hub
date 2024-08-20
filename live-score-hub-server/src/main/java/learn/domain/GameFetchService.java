@@ -43,12 +43,12 @@ public class GameFetchService {
 //        }
 //    }
 
-//    @Scheduled(cron = "*/60 * * * * *")
-//    public void fetchGamesFromAPI() throws Exception {
-//        sportspageFeedService.fetchAndSaveGamesForToday();
-//
-//        notifyClientsForLiveGames();
-//    }
+    @Scheduled(cron = "*/60 * * * * *")
+    public void fetchGamesFromAPI() throws Exception {
+        sportspageFeedService.fetchAndSaveGamesForToday();
+
+        notifyClientsForLiveGames();
+    }
 
     private void notifyClientsForLiveGames() throws Exception {
         LocalDateTime now = LocalDateTime.now();

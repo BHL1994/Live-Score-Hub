@@ -1,7 +1,8 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+const ScoreCard = ({ game, isLoggedIn }) => {
+  const [isFavorited, setIsFavorited] = useState(false);
 
-const ScoreCard = ({ game }) => {
   const isLive = game.game_status === 'in progress' || game.game_status === 'live';
   const isFinal = game.game_status === 'final';
   const isCanceled = game.game_status === 'canceled';
@@ -29,6 +30,11 @@ const ScoreCard = ({ game }) => {
     ? `${game.period} inning`
     : `${game.time_remaining}, Q${game.period}`
   ) : '';
+
+  const handleFavoriteClick = () => {
+    setIsFavorited(!isFavorited);
+    // Logic to save favorite status to the backend if necessary
+  };
 
   return (
     <div className="card mb-3">
@@ -62,8 +68,18 @@ const ScoreCard = ({ game }) => {
           </div>
         </div>
       </div>
-      <div className="card-footer text-body-secondary">
-        2 days ago
+      <div className="card-footer d-flex justify-content-between">
+        <a href={`https://tickets.${game.league.toLowerCase()}.com`} className="btn btn-link">Buy Tickets</a>
+        {isScheduled && isLoggedIn && (
+          <button 
+            onClick={handleFavoriteClick} 
+            className="btn btn-link"
+            style={{color: isFavorited ? 'yellow' : '#000', textShadow: '0px 0px 1px black' }}
+            >
+            <i className={`bi ${isFavorited ? 'bi-star-fill' : 'bi-star'}`}></i>
+          </button>
+        )}
+        <a href={`https://stats.${game.league.toLowerCase()}.com`} className="btn btn-link">View Stats</a>
       </div>
     </div>
   );

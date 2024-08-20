@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ScoreCard from './ScoreCard';
+import AuthContext from '../Context/AuthContext'; // Import AuthContext
 
 export default function Games() {
     const [date, setDate] = useState(new Date());
     const [games, setGames] = useState([]);
     const { league } = useParams();
-    const [ws, setWs] = useState(null); // State for WebSocket connection
+    const [ws, setWs] = useState(null); 
+    const auth = useContext(AuthContext); // Use AuthContext to determine if user is logged in
 
     const formattedDate = date.toLocaleDateString('en-US', {
         month: 'long',
@@ -21,7 +23,6 @@ export default function Games() {
             try {
                 setGames([]);
                 const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-                console.log(localDate);
                 const formattedDateForAPI = localDate.toISOString().split('T')[0];
                 console.log(`Fetching games for: League=${league}, Date=${formattedDateForAPI}`);
 
@@ -49,11 +50,9 @@ export default function Games() {
     }, [league, date]);
 
     useEffect(() => {
-        // Initialize WebSocket connection
         const socket = new WebSocket('ws://localhost:8080/live-scores');
         setWs(socket);
 
-        // Handle incoming messages (live updates)
         socket.onmessage = (event) => {
             try {
                 const gameUpdate = JSON.parse(event.data);
@@ -67,13 +66,12 @@ export default function Games() {
             }
         };
 
-        // Cleanup WebSocket connection on component unmount
         return () => {
             if (socket) {
                 socket.close();
             }
         };
-    }, []); // Empty dependency array ensures this effect runs once on mount
+    }, []); 
 
     return (
         <div className="container mx-auto text-center">
@@ -107,7 +105,7 @@ export default function Games() {
                                     e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
                                 }}
                             >
-                                <ScoreCard game={game} />
+                                <ScoreCard game={game} isLoggedIn={!!auth.user} />
                             </div>
                         ))
                     ) : (

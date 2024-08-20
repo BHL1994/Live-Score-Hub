@@ -40,4 +40,8 @@ public class SocketHandler extends TextWebSocketHandler {
             session.sendMessage(message);
         }
     }
+
+    private int getUserIdFromSession(WebSocketSession session) {
+        return (int) session.getAttributes().get("userId");
+    }
 }

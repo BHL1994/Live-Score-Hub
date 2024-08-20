@@ -8,6 +8,7 @@ import Games from './Components/Games';
 import AuthContext from './Context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import Error from './Components/Error';
+import MyGames from './Components/MyGames';
 
 const LOCAL_STORAGE_TOKEN_KEY = "liveScoreHubToken";
  
@@ -29,10 +30,11 @@ export default function App() {
   const login = (token) => {
     localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
 
-    const { sub: username, authorities: authoritiesString } = jwtDecode(token);
+    const { sub: username, app_user_id, authorities: authoritiesString } = jwtDecode(token);
 
     const user = {
       username,
+      app_user_id,
       token,
       hasRole(role) {
         return this.roles.includes(role);
@@ -69,6 +71,7 @@ export default function App() {
           <Route path="/games/:league" element={<Games />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/error" element={<Error />}/>
+          <Route path="/mygames" element={<Error></Error>}/>
           <Route path="/login" element={!user ? <LogIn /> : <Navigate to="/" replace={true} /> } />
         </Routes>
       </Router>

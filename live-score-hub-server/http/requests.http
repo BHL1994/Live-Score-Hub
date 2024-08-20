@@ -39,7 +39,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsaXZlLXNjb3JlLWh1YiIsInN1Y
 {
   "user_id": 1,
   "game_id": {
-    "game_id": 309091
+    "game_id": 310499
   },
   "notification_type": "PRE_GAME",
   "notification_time": "2024-08-20T15:00:00"
@@ -47,7 +47,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsaXZlLXNjb3JlLWh1YiIsInN1Y
 
 ###
 
-GET {{url}}/api/notifications/user/1 HTTP/1.1
+GET {{url}}/api/notifications/user/1/game/310499 HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsaXZlLXNjb3JlLWh1YiIsInN1YiI6IkJMb3dlOTQiLCJhcHBfdXNlcl9pZCI6MSwiZW1haWwiOiJCTG93ZTk0QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiVVNFUiIsImV4cCI6MTcyNDE3MTI0NX0.JhCKHe4CvUN1nwCOXEEzzkh9Wckm86_D89L3ykITZL4
 
@@ -60,3 +60,19 @@ Content-Type: application/json
   "username":"BLowe94",
   "password":"P@ssword1"
 }
+
+
+###
+POST {{url}}/api/notifications HTTP/1.1
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "game_id": 310464,
+}
+
+###
+
+DELETE {{url}}/api/notifications?user_id=1&game_id=310499 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJsaXZlLXNjb3JlLWh1YiIsInN1YiI6IkJMb3dlOTQiLCJhcHBfdXNlcl9pZCI6MSwiZW1haWwiOiJCTG93ZTk0QGdtYWlsLmNvbSIsImF1dGhvcml0aWVzIjoiVVNFUiIsImV4cCI6MTcyNDE3MTI0NX0.JhCKHe4CvUN1nwCOXEEzzkh9Wckm86_D89L3ykITZL4

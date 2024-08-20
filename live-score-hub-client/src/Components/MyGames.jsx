@@ -1,53 +1,30 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import ScoreCard from './ScoreCard';
 import AuthContext from '../Context/AuthContext';
 
-export default function Games() {
-    const [date, setDate] = useState(new Date());
-    const [games, setGames] = useState([]);
-    const { league } = useParams();
-    const [ws, setWs] = useState(null); 
+export default function MyGames() {
     const auth = useContext(AuthContext);
-
-    const formattedDate = date.toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric'
-    });
+    const [games, setGames] = useState([]);
+    const [ws, setWs] = useState(null);
 
     useEffect(() => {
-        const fetchGames = async () => {
+        const fetchFavoritedGames = async () => {
             try {
-                setGames([]);
-                const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-                const formattedDateForAPI = localDate.toISOString().split('T')[0];
-                console.log(`Fetching games for: League=${league}, Date=${formattedDateForAPI}`);
-
-                const response = await fetch(
-                    `http://localhost:8080/api/games?league=${league}&date=${formattedDateForAPI}`
-                );
-
-                if (response.status === 204) {
-                    console.log("No games for today.");
-                    setGames([]);
-                } else if (response.ok) {
-                    const gamesData = await response.json();
-                    setGames(gamesData);
+                const response = await fetch(`http://localhost:8080/api/notifications/user/${auth.user.app_user_id}`);
+                if (response.ok) {
+                    const notifications = await response.json();
+                    const fetchedGames = notifications.map(n => n.game);
+                    setGames(fetchedGames);
                 } else {
-                    console.error('Failed to fetch games:', response.status, response.statusText);
-                    setGames([]);
+                    console.error('Failed to fetch favorited games:', response.status, response.statusText);
                 }
             } catch (error) {
                 console.error('Fetch error:', error);
-                setGames([]);
             }
         };
 
-        fetchGames();
-    }, [league, date]);
+        fetchFavoritedGames();
+    }, [auth.user.app_user_id]);
 
     useEffect(() => {
         const socket = new WebSocket('ws://localhost:8080/live-scores');
@@ -56,11 +33,11 @@ export default function Games() {
         socket.onmessage = (event) => {
             try {
                 const gameUpdate = JSON.parse(event.data);
-                setGames((prevGames) => {
-                    return prevGames.map((game) =>
+                setGames(prevGames => 
+                    prevGames.map(game =>
                         game.game_id === gameUpdate.game_id ? { ...game, ...gameUpdate } : game
-                    );
-                });
+                    )
+                );
             } catch (error) {
                 console.error("Error parsing WebSocket message:", error, event.data);
             }
@@ -71,20 +48,11 @@ export default function Games() {
                 socket.close();
             }
         };
-    }, []); 
+    }, []);
 
     return (
         <div className="container mx-auto text-center">
-            <h2>
-                {league} Games for {formattedDate}
-            </h2>
-            <div className="d-flex justify-content-center">
-                <DatePicker
-                    inline
-                    selected={date}
-                    onChange={(date) => setDate(date)}
-                />
-            </div>
+            <h2>My Games</h2>
             <div className="grid gap-3 mt-5">
                 <div className="row justify-content-center">
                     {games.length > 0 ? (
@@ -109,7 +77,7 @@ export default function Games() {
                             </div>
                         ))
                     ) : (
-                        <p>No games available for this date.</p>
+                        <p>You have no games saved.</p>
                     )}
                 </div>
             </div>

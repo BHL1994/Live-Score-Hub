@@ -59,10 +59,11 @@ create table game (
         references team(team_id)
 );
 
+
 create table notification (
 	notification_id int primary key auto_increment,
     user_id int not null,
-    game_id int not null,
+    game_id int not null unique,
     notification_type ENUM("PRE_GAME", "QUARTER_START", "QUARTER_END", "GAME_END") not null,
     notification_time datetime not null,
     constraint fk_notification_user_id
@@ -76,6 +77,7 @@ create table notification (
 insert into app_role (`name`) values
     ('USER'),
     ('ADMIN');
+
     
 INSERT INTO team (name, city, team, league, abbreviation, logo_url) VALUES
 	('AL All-Stars', 'AL', 'AL All-Stars', 'MLB', 'ALAS', 'https://content.sportslogos.net/logos/53/488/full/_american_league_logo_primary_20193833.png'),

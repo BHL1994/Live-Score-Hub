@@ -56,7 +56,7 @@ export default function Nav() {
                         </li>
                         {auth.user && (
                             <li className="nav-item">
-                                <NavLink className="nav-link text-white" to="/games">
+                                <NavLink className="nav-link text-white" to="/mygames">
                                     My Games
                                 </NavLink>
                             </li>

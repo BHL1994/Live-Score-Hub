@@ -33,7 +33,7 @@ public class NotificationController {
         Notification notification = notificationService.findByUserIdAndGameId(userId, gameId);
 
         if (notification == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.noContent().build();
         }
 
         return ResponseEntity.ok(notification);
@@ -50,9 +50,16 @@ public class NotificationController {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/{notificationId}")
-    public ResponseEntity<Void> deleteNotification(@PathVariable int notificationId) {
-        boolean isDeleted = notificationService.delete(notificationId);
+    @DeleteMapping
+    public ResponseEntity<Void> deleteNotification(@RequestParam("user_id") int userId, @RequestParam("game_id") int gameId) {
+
+        Notification notification = notificationService.findByUserIdAndGameId(userId, gameId);
+
+        if (notification == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        boolean isDeleted = notificationService.delete(notification.getId());
 
         if (!isDeleted) {
             return ResponseEntity.notFound().build();
@@ -60,6 +67,7 @@ public class NotificationController {
 
         return ResponseEntity.noContent().build();
     }
+
 
     @GetMapping("/game/{gameId}")
     public ResponseEntity<List<Notification>> getNotificationsByGameId(@PathVariable int gameId) {

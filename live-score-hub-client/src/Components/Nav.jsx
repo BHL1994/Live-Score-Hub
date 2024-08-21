@@ -1,6 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
-import logo2 from "../images/logo-2.png";
 import AuthContext from "../Context/AuthContext";
 import { useContext } from "react";
 import '../Nav.css';
@@ -15,10 +14,10 @@ export default function Nav() {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg">
+        <nav className="navbar navbar-expand-lg mb-5">
             <div className="container-fluid">
                 <NavLink className="navbar-brand" to="/">
-                    <img src={logo2} className="nav-logo" alt="Logo" />
+                    <img src={logo} className="nav-logo" alt="Logo" />
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

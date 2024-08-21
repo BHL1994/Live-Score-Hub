@@ -1,0 +1,71 @@
+/* Home.css
+
+.home-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.home-header h1 {
+    font-size: 2.5rem;
+    color: rgb(4, 30, 66);
+    margin-bottom: 10px;
+}
+
+.home-header p {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.home-featured {
+    margin: 30px 0;
+}
+
+.home-featured h2 {
+    font-size: 1.8rem;
+    color: rgb(4, 30, 66);
+    margin-bottom: 20px;
+}
+
+.featured-list {
+    list-style: none;
+    padding: 0;
+}
+
+.featured-list li {
+    margin: 10px 0;
+}
+
+.featured-list li a {
+    color: rgb(4, 30, 66);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.featured-list li a:hover {
+    text-decoration: underline;
+}
+
+.home-explore h2 {
+    font-size: 1.8rem;
+    color: rgb(4, 30, 66);
+    margin-bottom: 20px;
+}
+
+.league-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.league-btn {
+    background-color: rgb(4, 30, 66);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.league-btn:hover {
+    background-color: rgb(3, 24, 54);
+} */

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Header from './Components/Header';
 import LogIn from './Components/LogIn';
+import { Box, CssBaseline } from '@mui/material'; // Add CssBaseline and Box
 import Home from './Components/Home';
 import SignUp from './Components/SignUp';
 import Games from './Components/Games';
@@ -10,6 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 import Error from './Components/Error';
 import MyGames from './Components/MyGames';
 import NotFound from './Components/NotFound';
+import Footer from './Components/Footer';
 
 const LOCAL_STORAGE_TOKEN_KEY = "liveScoreHubToken";
  
@@ -65,8 +67,11 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={auth}>
+      <CssBaseline/>
       <Router>
-        <Header/>
+      <Box display="flex" flexDirection="column" minHeight="100vh">
+          <Header />
+          <Box flexGrow={1}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/games/:league" element={<Games />} />
@@ -76,6 +81,9 @@ export default function App() {
           <Route path="/login" element={!user ? <LogIn /> : <Navigate to="/" replace={true} /> } />
           <Route path="*" element={<NotFound></NotFound>}></Route>
         </Routes>
+        </Box>
+        <Footer></Footer>
+        </Box>
       </Router>
     </AuthContext.Provider>
   );

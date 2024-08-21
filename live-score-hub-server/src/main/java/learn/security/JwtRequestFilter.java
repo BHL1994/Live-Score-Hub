@@ -41,7 +41,6 @@ public class JwtRequestFilter extends BasicAuthenticationFilter {
             }
         }
 
-        // 5. Keep the chain going.
         chain.doFilter(request, response);
     }
 }

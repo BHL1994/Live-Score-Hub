@@ -45,7 +45,6 @@ public class GameMapper implements RowMapper<Game> {
         game.setHomePeriodScores(rs.getString("home_period_scores"));
         game.setAwayPeriodScores(rs.getString("away_period_scores"));
 
-
         return game;
     }
 }

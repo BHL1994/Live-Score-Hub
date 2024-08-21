@@ -39,12 +39,18 @@ create table team (
 );
 
 create table game (
-	game_id int primary key auto_increment,
+	game_id int primary key,
     home_id int not null,
     away_id int not null,
     game_date datetime not null,
+    game_status varchar(50),
+    period int,
+    league varchar(25) not null,
+    time_remaining varchar(10),
     home_score int default 0,
     away_score int default 0,
+	home_period_scores varchar(100),
+    away_period_scores varchar(100),
 	constraint fk_game_home_id
 		foreign key(home_id)
         references team(team_id),
@@ -53,12 +59,13 @@ create table game (
         references team(team_id)
 );
 
+
 create table notification (
 	notification_id int primary key auto_increment,
     user_id int not null,
-    game_id int not null,
-    notification_type ENUM("PRE-GAME", "QUARTER_START", "QUARTER_END", "GAME_END") not null,
-    notifcation_time datetime not null,
+    game_id int not null unique,
+    notification_type ENUM("PRE_GAME", "QUARTER_START", "QUARTER_END", "GAME_END") not null,
+    notification_time datetime not null,
     constraint fk_notification_user_id
 		foreign key(user_id)
         references app_user(app_user_id),
@@ -99,12 +106,9 @@ begin
 		(2, 1);
 
     INSERT INTO team (name, city, team, league, abbreviation, logo_url) VALUES
-        ('Chicago White Sox', 'Chicago', 'White Sox', 'MLB', 'CWS', 'https://a.espncdn.com/i/teamlogos/mlb/500/chw
-        .png'),
+        ('Chicago White Sox', 'Chicago', 'White Sox', 'MLB', 'CWS', 'https://a.espncdn.com/i/teamlogos/mlb/500/chw.png'),
         ('Detroit Tigers', 'Detroit', 'Tigers', 'MLB', 'DET', 'https://a.espncdn.com/i/teamlogos/mlb/500/det.png'),
-        ('Kansas City Royals', 'Kansas City', 'Royals', 'MLB', 'KC', 'https://a.espncdn.com/i/teamlogos/mlb/500/kc
-        .png')
-        ;
+        ('Kansas City Royals', 'Kansas City', 'Royals', 'MLB', 'KC', 'https://a.espncdn.com/i/teamlogos/mlb/500/kc.png');
         
 end //
 

@@ -1,0 +1,35 @@
+.navbar {
+    background-color: rgb(4, 30, 66);
+}
+
+.navbar-brand img.nav-logo {
+    max-height: 40px;
+}
+
+.nav-link {
+    color: white !important;
+    font-family: proxima-nova, mlb-primary, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700 !important;
+    margin-right: 20px;
+}
+
+.nav-link:hover {
+    color: lightgray !important;
+}
+
+.btn-link.nav-link {
+    color: white;
+    cursor: pointer;
+    font-weight: 700; 
+}
+
+.btn-link.nav-link:hover {
+    color: lightgray !important;
+}
+
+.nav-item .nav-link.welcome-text {
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 700;
+}

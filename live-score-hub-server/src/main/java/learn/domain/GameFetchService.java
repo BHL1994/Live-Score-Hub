@@ -42,40 +42,24 @@ public class GameFetchService {
 //            sportspageFeedService.fetchAndSaveGamesForDateRange(startDate, weekEndDate);
 //
 //            startDate = startDate.plusDays(7);
-//            System.out.println("done");
+//
 //        }
 //    }
 
-//    @Scheduled(cron = "*/60 * * * * *")
-//    public void fetchGamesFromAPI() throws Exception {
-//        sportspageFeedService.fetchAndSaveGamesForToday();
-//
-//        notifyClientsForLiveGames();
-//        notifyUsersForGameStart();
-//    }
+    @Scheduled(cron = "*/60 * * * * *")
+    public void fetchGamesFromAPI() throws Exception {
+        sportspageFeedService.fetchAndSaveGamesForToday();
+
+        notifyClientsForLiveGames();
+    }
 
     private void notifyClientsForLiveGames() throws Exception {
         LocalDateTime now = LocalDateTime.now();
         List<Game> liveGames = gameRepository.findByDate(now);
 
         for (Game game : liveGames) {
-            // Convert the Game object to JSON string before sending
             String gameUpdateJson = objectMapper.writeValueAsString(game);
             gameUpdateService.sendGameUpdate(gameUpdateJson);
-        }
-    }
-
-    private void notifyUsersForGameStart() throws Exception {
-        LocalDateTime now = LocalDateTime.now();
-        List<Game> liveGames = gameRepository.findByDate(now);
-
-        for (Game game : liveGames) {
-            List<Notification> notifications = notificationService.findByGameId(game.getId());
-
-            for (Notification notification : notifications) {
-                String notificationJson = objectMapper.writeValueAsString(notification);
-                gameUpdateService.sendGameUpdate(notificationJson);
-            }
         }
     }
 }

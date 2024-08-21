@@ -3,6 +3,7 @@ import logo from "../images/logo.png";
 import logo2 from "../images/logo-2.png";
 import AuthContext from "../Context/AuthContext";
 import { useContext } from "react";
+import '../Nav.css';
 
 export default function Nav() {
     const auth = useContext(AuthContext);
@@ -14,10 +15,10 @@ export default function Nav() {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg" style={{ backgroundColor: 'rgb(4, 30, 66)' }}>
+        <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
                 <NavLink className="navbar-brand" to="/">
-                    <img src={logo2} className="nav-logo" alt="Logo" style={{ maxHeight: '40px' }} />
+                    <img src={logo2} className="nav-logo" alt="Logo" />
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -25,38 +26,38 @@ export default function Nav() {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <NavLink className="nav-link text-white" to="/games/NBA">
+                            <NavLink className="nav-link" to="/games/NBA">
                                 NBA
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-white" to="/games/MLB">
+                            <NavLink className="nav-link" to="/games/MLB">
                                 MLB
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-white" to="/games/NFL">
+                            <NavLink className="nav-link" to="/games/NFL">
                                 NFL
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-white" to="/games/NHL">
+                            <NavLink className="nav-link" to="/games/NHL">
                                 NHL
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-white" to="/games/NCAAF">
+                            <NavLink className="nav-link" to="/games/NCAAF">
                                 NCAAF
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-white" to="/games/NCAAB">
+                            <NavLink className="nav-link" to="/games/NCAAB">
                                 NCAAB
                             </NavLink>
                         </li>
                         {auth.user && (
                             <li className="nav-item">
-                                <NavLink className="nav-link text-white" to="/mygames">
+                                <NavLink className="nav-link" to="/mygames">
                                     My Games
                                 </NavLink>
                             </li>
@@ -66,12 +67,12 @@ export default function Nav() {
                         {auth.user ? (
                             <>
                                 <li className="nav-item">
-                                    <span className="nav-link text-white">
+                                    <span className="nav-link welcome-text">
                                         Welcome {auth.user.username}
                                     </span>
                                 </li>
                                 <li className="nav-item">
-                                    <button className="btn btn-link nav-link text-white" onClick={handleLogout}>
+                                    <button className="btn btn-link nav-link" onClick={handleLogout}>
                                         Log Out
                                     </button>
                                 </li>
@@ -79,12 +80,12 @@ export default function Nav() {
                         ) : (
                             <>
                                 <li className="nav-item">
-                                    <NavLink className="nav-link text-white" to="/signup">
+                                    <NavLink className="nav-link" to="/signup">
                                         Sign Up
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink className="nav-link text-white" to="/login">
+                                    <NavLink className="nav-link" to="/login">
                                         Log In
                                     </NavLink>
                                 </li>

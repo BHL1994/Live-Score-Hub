@@ -9,6 +9,7 @@ import AuthContext from './Context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import Error from './Components/Error';
 import MyGames from './Components/MyGames';
+import NotFound from './Components/NotFound';
 
 const LOCAL_STORAGE_TOKEN_KEY = "liveScoreHubToken";
  
@@ -71,8 +72,9 @@ export default function App() {
           <Route path="/games/:league" element={<Games />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/error" element={<Error />}/>
-          <Route path="/mygames" element={<Error></Error>}/>
+          <Route path="/mygames" element={user ? <MyGames></MyGames> : <Navigate to="/error" replace={true}></Navigate>}/>
           <Route path="/login" element={!user ? <LogIn /> : <Navigate to="/" replace={true} /> } />
+          <Route path="*" element={<NotFound></NotFound>}></Route>
         </Routes>
       </Router>
     </AuthContext.Provider>

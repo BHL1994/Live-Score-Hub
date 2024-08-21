@@ -67,23 +67,11 @@ public class GameService {
         boolean success = repository.update(game);
         if (success) {
             try {
-                // Convert Game object to JSON string
                 String gameUpdateJson = objectMapper.writeValueAsString(game);
                 gameUpdateService.sendGameUpdate(gameUpdateJson);
             } catch (Exception e) {
                 System.err.println("Error sending game update: " + e.getMessage());
             }
-
-
-            //Game notification logic
-//            Notification notification = new Notification();
-//            notification.setAppUser(game.getId(););
-//            notification.setGame(game);
-//            notification.setNotificationType(NotificationType.GAME_END);
-//            notification.setNotificationTime(LocalDateTime.now());
-//            notificationService.add(notification);
-//            notificationService.sendGameNotification(notification);
-
             return true;
         }
         return false;

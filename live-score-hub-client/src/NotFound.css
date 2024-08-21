@@ -1,0 +1,32 @@
+.not-found-container {
+    text-align: center;
+    padding: 50px;
+}
+
+.not-found-container h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff4c4c;
+}
+
+.not-found-container p {
+    font-size: 1.5rem;
+    margin: 20px 0;
+}
+
+.not-found-container .btn {
+    background-color: rgb(4, 30, 66);
+    color: white !important;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.not-found-container .btn:hover {
+    background-color: rgb(3, 24, 54); /* Slightly darker shade on hover */
+    color: lightgray !important;
+}

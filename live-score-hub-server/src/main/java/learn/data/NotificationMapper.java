@@ -11,7 +11,9 @@ public class NotificationMapper implements RowMapper<Notification> {
     public Notification mapRow(ResultSet rs, int rowNum) throws SQLException {
         Notification notification = new Notification();
 
-        notification.setId(rs.getInt("notification_id")); notification.setUserId(rs.getInt("user_id")); notification.setNotificationType(NotificationType.valueOf(rs.getString("notification_type")));
+        notification.setId(rs.getInt("notification_id"));
+        notification.setUserId(rs.getInt("user_id"));
+        notification.setNotificationType(NotificationType.valueOf(rs.getString("notification_type")));
         notification.setNotificationTime(rs.getTimestamp("notification_time").toLocalDateTime());
 
         Game game = new Game();

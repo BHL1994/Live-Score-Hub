@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import AuthContext from '../Context/AuthContext';
+import { useLocation } from 'react-router-dom';
 
 const ScoreCard = ({ game, isLoggedIn }) => {
     const auth = useContext(AuthContext);
-
     const [isFavorited, setIsFavorited] = useState(false);
 
     useEffect(() => {
@@ -80,24 +80,36 @@ const ScoreCard = ({ game, isLoggedIn }) => {
     const homeScoreClass = (isLive || isFinal) ? (homeScoreHigher ? 'text-success' : 'text-danger') : '';
     const awayScoreClass = (isLive || isFinal) ? (!homeScoreHigher ? 'text-success' : 'text-danger') : '';
 
-    const gameDateUTC = new Date(game.game_date);
-    const options = {
-        timeZone: 'America/New_York',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-    };
-    const formattedTime = gameDateUTC.toLocaleString('en-US', options) + ' EST';
+    const location = useLocation();
+    const isMyGamesPage = location.pathname === '/mygames';
 
+    const gameDateUTC = new Date(game.game_date);
+    let options;
+
+    if (isMyGamesPage && isScheduled) {
+        options = {
+            timeZone: 'America/New_York',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+        };
+    } else {
+        options = {
+            timeZone: 'America/New_York',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+        };
+    }
+
+    const formattedTime = gameDateUTC.toLocaleString('en-US', options) + ' EST';
     const gameStatusSymbol = isFinal ? 'Final' : 
         isCanceled ? 'Canceled' : isLive ? 'Live' : isScheduled ? `${formattedTime}` : '';
-
     const totalPeriods = game.away_period_scores.length + game.home_period_scores.length;
-
-    const isTopInning = totalPeriods % 2 === 0;
-                            
+    const isTopInning = totalPeriods % 2 === 0;                    
     const inningLabel = isTopInning ? 'Top' : 'Bot';
-
     const inningNumber = `${game.period}${game.period === 1 ? 'st' 
         : game.period === 2 ? 'nd' 
         : game.period === 3 ? 'rd' : 'th'}`;
@@ -111,6 +123,8 @@ const ScoreCard = ({ game, isLoggedIn }) => {
         ( <div className="d-flex flex-column align-items-center" style={{ fontSize: '0.75rem' }}>   <span>Q{game.period}</span> 
             <span>{game.time_remaining}</span>
         </div> ) ) : '';
+
+
 
 
     return (
@@ -151,15 +165,15 @@ const ScoreCard = ({ game, isLoggedIn }) => {
         </div>
         <div className="card-footer d-flex justify-content-between">
             <a href={`https://tickets.${game.league.toLowerCase()}.com`} className="btn btn-link">Buy Tickets</a>
-            {isScheduled && isLoggedIn && (
-            <button 
-                onClick={handleFavoriteClick} 
-                className="btn btn-link"
-                style={{color: isFavorited ? 'yellow' : '#000', textShadow: '0px 0px 1px black' }}
-                >
-                <i className={`bi ${isFavorited ? 'bi-star-fill' : 'bi-star'}`}></i>
-            </button>
-            )}
+            {isScheduled && isLoggedIn && !isMyGamesPage && (
+                <button 
+                    onClick={handleFavoriteClick} 
+                    className="btn btn-link"
+                    style={{color: isFavorited ? 'yellow' : '#000', textShadow: '0px 0px 1px black' }}
+                    >
+                    <i className={`bi ${isFavorited ? 'bi-star-fill' : 'bi-star'}`}></i>
+                </button>
+                )}
             <a href={`https://stats.${game.league.toLowerCase()}.com`} className="btn btn-link">View Stats</a>
         </div>
         </div>

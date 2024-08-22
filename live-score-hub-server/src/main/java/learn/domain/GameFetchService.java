@@ -29,30 +29,30 @@ public class GameFetchService {
         this.objectMapper = objectMapper;
     }
 
-    @Scheduled(cron = "*/60 * * * * *")
-    public void fetchGamesForDateRange() {
-        LocalDate startDate = LocalDate.of(2024, 5, 1);
-        LocalDate endDate = LocalDate.of(2024, 9, 18);
-
-        while (!startDate.isAfter(endDate)) {
-            LocalDate weekEndDate = startDate.plusDays(6);
-            if (weekEndDate.isAfter(endDate)) {
-                weekEndDate = endDate;
-            }
-            sportspageFeedService.fetchAndSaveGamesForDateRange(startDate, weekEndDate);
-
-            startDate = startDate.plusDays(7);
-            System.out.println("done");
-
-        }
-    }
-
 //    @Scheduled(cron = "*/60 * * * * *")
-//    public void fetchGamesFromAPI() throws Exception {
-//        sportspageFeedService.fetchAndSaveGamesForToday();
+//    public void fetchGamesForDateRange() {
+//        LocalDate startDate = LocalDate.of(2024, 5, 1);
+//        LocalDate endDate = LocalDate.of(2024, 9, 18);
 //
-//        notifyClientsForLiveGames();
+//        while (!startDate.isAfter(endDate)) {
+//            LocalDate weekEndDate = startDate.plusDays(6);
+//            if (weekEndDate.isAfter(endDate)) {
+//                weekEndDate = endDate;
+//            }
+//            sportspageFeedService.fetchAndSaveGamesForDateRange(startDate, weekEndDate);
+//
+//            startDate = startDate.plusDays(7);
+//            System.out.println("done");
+//
+//        }
 //    }
+
+    @Scheduled(cron = "*/30 * * * * *")
+    public void fetchGamesFromAPI() throws Exception {
+        sportspageFeedService.fetchAndSaveGamesForToday();
+
+        notifyClientsForLiveGames();
+    }
 
     private void notifyClientsForLiveGames() throws Exception {
         LocalDateTime now = LocalDateTime.now();

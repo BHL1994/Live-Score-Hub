@@ -14,7 +14,29 @@ export default function MyGames() {
                 if (response.ok) {
                     const notifications = await response.json();
                     const fetchedGames = notifications.map(n => n.game_id).filter(game => game !== null);
-                    setGames(fetchedGames);
+                    const now = new Date();
+                    const filteredGames = [];
+
+                    for (const game of fetchedGames) {
+                        const gameDate = new Date(game.game_date);
+                        const timeDifference = Math.abs(now - gameDate) / 36e5;
+
+                        if ((game.game_status === 'final' || game.game_status === 'canceled') && timeDifference > 12) {
+                            const deleteResponse = await fetch(`http://localhost:8080/api/notifications?user_id=${auth.user.app_user_id}&game_id=${game.game_id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    Authorization: `Bearer ${auth.user.token}`,
+                                },
+                            });
+
+                            if (deleteResponse.status !== 204) {
+                                console.error('Failed to delete game:', deleteResponse.status, deleteResponse.statusText);
+                            }
+                        } else {
+                            filteredGames.push(game);
+                        }
+                    }
+                    setGames(filteredGames);
                 } else {
                     console.error('Failed to fetch favorited games:', response.status, response.statusText);
                 }
@@ -24,32 +46,21 @@ export default function MyGames() {
         };
 
         fetchFavoritedGames();
-    }, [auth.user.app_user_id]);
+    }, [auth.user.app_user_id, auth.user.token]);
+    
 
     useEffect(() => {
         const socket = new WebSocket('ws://localhost:8080/live-scores');
         setWs(socket);
 
-        socket.onmessage = async (event) => {
+        socket.onmessage = (event) => {
             try {
                 const gameUpdate = JSON.parse(event.data);
-                const now = new Date();
-                const gameDate = new Date(gameUpdate.game_date);
-                const timeDifference = Math.abs(now - gameDate) / 36e5;
-
-                if ((gameUpdate.game_status === 'final' || gameUpdate.game_status === 'canceled') && timeDifference > 12) {
-                    await fetch(`http://localhost:8080/api/notifications?user_id=${auth.user.app_user_id}&game_id=${gameUpdate.game_id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            Authorization: `Bearer ${auth.user.token}`,
-                        },
-                    });
-                    setGames(prevGames => prevGames.filter(game => game.game_id !== gameUpdate.game_id));
-                } else {
-                    setGames(prevGames => 
-                        prevGames.map(game => game.game_id === gameUpdate.game_id ? { ...game, ...gameUpdate } : game)
+                setGames((prevGames) => {
+                    return prevGames.map((game) =>
+                        game.game_id === gameUpdate.game_id ? { ...game, ...gameUpdate } : game
                     );
-                }
+                });
             } catch (error) {
                 console.error("Error parsing WebSocket message:", error, event.data);
             }
@@ -60,7 +71,7 @@ export default function MyGames() {
                 socket.close();
             }
         };
-    }, [auth.user.app_user_id]);
+    }, []); 
 
     return (
         <div className="container mx-auto text-center">

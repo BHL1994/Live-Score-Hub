@@ -44,7 +44,6 @@ export default function App() {
       }
     };
 
-    console.log(user);
     setUser(user);
     return user;
   }

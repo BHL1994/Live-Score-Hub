@@ -107,22 +107,26 @@ const ScoreCard = ({ game, isLoggedIn }) => {
     const formattedTime = gameDateUTC.toLocaleString('en-US', options) + ' EST';
     const gameStatusSymbol = isFinal ? 'Final' : 
         isCanceled ? 'Canceled' : isLive ? 'Live' : isScheduled ? `${formattedTime}` : '';
-    const totalPeriods = game.away_period_scores.length + game.home_period_scores.length;
-    const isTopInning = totalPeriods % 2 === 0;                    
+    const totalPeriods = game.period;
+    const isTopInning = totalPeriods % 2 === 0;
+
+    const inningNumber = isTopInning
+        ? totalPeriods
+        : totalPeriods;
+
     const inningLabel = isTopInning ? 'Top' : 'Bot';
-    const inningNumber = `${game.period}${game.period === 1 ? 'st' 
-        : game.period === 2 ? 'nd' 
-        : game.period === 3 ? 'rd' : 'th'}`;
-                            
-    const gameMiddleText = isLive ? 
-        ( game.league === 'MLB' ? 
-        ( <div className="d-flex flex-column align-items-center">
-            <span>{inningLabel}</span> 
-            <span>{inningNumber}</span> 
-        </div> ) : 
-        ( <div className="d-flex flex-column align-items-center" style={{ fontSize: '0.75rem' }}>   <span>Q{game.period}</span> 
+
+    const gameMiddleText = isLive && game.league === 'MLB' ? (
+        <div className="d-flex flex-column align-items-center">
+            <span>{inningLabel}</span>
+            <span>{inningNumber}{inningNumber === 1 ? 'st' : inningNumber === 2 ? 'nd' : inningNumber === 3 ? 'rd' : 'th'}</span>
+        </div>
+    ) : (
+        <div className="d-flex flex-column align-items-center" style={{ fontSize: '0.75rem' }}>
+            <span>Q{game.period}</span>
             <span>{game.time_remaining}</span>
-        </div> ) ) : '';
+        </div>
+    );
 
 
 

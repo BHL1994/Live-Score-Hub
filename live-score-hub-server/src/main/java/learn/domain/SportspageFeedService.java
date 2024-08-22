@@ -154,7 +154,6 @@ public class SportspageFeedService {
             game.setAwayPeriodScores("");
         }
 
-
         return game;
     }
 }

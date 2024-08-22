@@ -47,7 +47,7 @@ export default function MyGames() {
 
         fetchFavoritedGames();
     }, [auth.user.app_user_id, auth.user.token]);
-    
+
 
     useEffect(() => {
         const socket = new WebSocket('ws://localhost:8080/live-scores');
@@ -75,7 +75,7 @@ export default function MyGames() {
 
     return (
         <div className="container mx-auto text-center">
-            <h2>My Games</h2>
+            <h2 className='games-title'>My Games</h2>
             <div className="grid gap-3 mt-5">
                 <div className="row justify-content-center">
                     {games.length > 0 ? (
@@ -104,7 +104,7 @@ export default function MyGames() {
                             </div>
                         ))
                     ) : (
-                        <p>You have no games saved.</p>
+                        <p className='no-games-message'>You have no games saved for this date.</p>
                     )}
                 </div>
             </div>

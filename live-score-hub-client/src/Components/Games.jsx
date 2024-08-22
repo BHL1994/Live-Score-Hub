@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ScoreCard from './ScoreCard';
 import AuthContext from '../Context/AuthContext';
+import '../Games.css';
 
 export default function Games() {
     const [date, setDate] = useState(new Date());
@@ -75,14 +76,16 @@ export default function Games() {
 
     return (
         <div className="container mx-auto text-center">
-            <h2>
+            <h2 className="games-title mb-5">
                 {league} Games for {formattedDate}
             </h2>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center mb-4">
                 <DatePicker
                     inline
                     selected={date}
                     onChange={(date) => setDate(date)}
+                    className="custom-datepicker"
+                    calendarClassName="custom-calendar"
                 />
             </div>
             <div className="grid gap-3 mt-5">
@@ -109,7 +112,7 @@ export default function Games() {
                             </div>
                         ))
                     ) : (
-                        <p>No games available for this date.</p>
+                        <p className='no-games-message'>No games available for this date.</p>
                     )}
                 </div>
             </div>

@@ -67,9 +67,9 @@ export default function SignUp() {
   };
 
   return (
-    <div className="m-3 d-flex">
-      <div className="w-50">
-        <h2>Sign Up</h2>
+    <div className="d-flex justify-content-center align-items-center min-vh-100">
+      <div className="card p-4 shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
+        <h2 className="signup-title text-center mb-4">Sign Up</h2>
         {errors.map((error, i) => (
           <div key={i} className="alert alert-danger">{error}</div>
         ))}
@@ -118,9 +118,9 @@ export default function SignUp() {
               required
             />
           </div>
-          <button className="btn btn-primary mt-3 mb-3" type="submit">Sign Up</button>
+          <button className="btn btn-primary w-100 mt-3 mb-3" type="submit">Sign Up</button>
         </form>
-        <p>
+        <p className="text-center">
           Already have an account? <a href="/login">Log in here</a>
         </p>
       </div>

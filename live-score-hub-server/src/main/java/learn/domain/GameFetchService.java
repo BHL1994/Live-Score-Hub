@@ -29,7 +29,7 @@ public class GameFetchService {
         this.objectMapper = objectMapper;
     }
 
-//    @Scheduled(cron = "*/60 * * * * *")
+//    @Scheduled(cron = "*/30 * * * * *")
 //    public void fetchGamesForDateRange() {
 //        LocalDate startDate = LocalDate.of(2024, 5, 1);
 //        LocalDate endDate = LocalDate.of(2024, 9, 18);

@@ -28,7 +28,7 @@ export default function Home() {
                                 backgroundColor: 'rgba(0, 0, 0, 0.5)', 
                                 borderRadius: '8px' 
                             }}>
-                                <Typography variant="h3" gutterBottom>Welcome to Live Sports Hub</Typography>
+                                <Typography variant="h3" gutterBottom>Welcome to Live Score Hub</Typography>
                                 <Typography variant="h5" paragraph>
                                     Your one-stop site for keeping up with the scores of your favorite sports. Stay updated with live results, upcoming games, and much more, all in one place.
                                 </Typography>
@@ -121,7 +121,7 @@ export default function Home() {
                         <Paper elevation={0} style={{ padding: '20px' }}>
                             <Typography variant="h6" gutterBottom>About</Typography>
                             <Typography variant="body1">
-                                Live Sports Hub is your go-to platform for staying up-to-date with live sports scores, results, and schedules across major leagues. Whether you’re a fan of the MLB, NFL, NBA, or any other major sport, our mission is to provide you with real-time updates and comprehensive coverage, all in one place. We aim to bring sports enthusiasts closer to the action, ensuring you never miss a moment of the games that matter to you.
+                                Live Score Hub is your go-to platform for staying up-to-date with live sports scores, results, and schedules across major leagues. Whether you’re a fan of the MLB, NFL, NBA, or any other major sport, our mission is to provide you with real-time updates and comprehensive coverage, all in one place. We aim to bring sports enthusiasts closer to the action, ensuring you never miss a moment of the games that matter to you.
                             </Typography>
                         </Paper>
                     </Grid>

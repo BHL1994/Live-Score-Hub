@@ -121,7 +121,6 @@ const ScoreCard = ({ game, isLoggedIn }) => {
             hour12: true,
         };
     }
-
     const formattedTime = gameDateUTC.toLocaleString('en-US', options) + ' EST';
     const gameStatusSymbol = isFinal ? 'Final' : 
         isCanceled ? 'Canceled' : isLive ? 'Live' : isScheduled ? `${formattedTime}` : '';
@@ -133,11 +132,14 @@ const ScoreCard = ({ game, isLoggedIn }) => {
         : totalPeriods;
 
     const inningLabel = isTopInning ? 'Top' : 'Bot';
-
     const gameMiddleText = isLive && game.league === 'MLB' ? (
         <div className="d-flex flex-column align-items-center">
             <span>{inningLabel}</span>
             <span>{inningNumber}{inningNumber === 1 ? 'st' : inningNumber === 2 ? 'nd' : inningNumber === 3 ? 'rd' : 'th'}</span>
+        </div>
+    ) : isScheduled ? (
+        <div className="d-flex align-items-center justify-content-center">
+            <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#6c757d' }}>vs</span>
         </div>
     ) : (
         <div className="d-flex flex-column align-items-center" style={{ fontSize: '0.75rem' }}>
@@ -145,6 +147,7 @@ const ScoreCard = ({ game, isLoggedIn }) => {
             <span>{game.time_remaining}</span>
         </div>
     );
+
 
     return (
         <div className="card mb-3">
@@ -163,7 +166,7 @@ const ScoreCard = ({ game, isLoggedIn }) => {
                     {(isLive || isFinal) && (
                         <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.away_score}</p>
                     )}
-                    {isLive && (
+                    {isLive || isScheduled && (
                         <div className="text-danger mx-1" style={{ margin: '0 0.5rem' }}>
                             {gameMiddleText}
                         </div>

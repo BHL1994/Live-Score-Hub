@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Header from './Components/Header';
 import LogIn from './Components/LogIn';
-import { Box, CssBaseline } from '@mui/material'; // Add CssBaseline and Box
+import { Box, CssBaseline } from '@mui/material';
 import Home from './Components/Home';
 import SignUp from './Components/SignUp';
 import Games from './Components/Games';
@@ -75,8 +75,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/games/:league" element={<Games />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/error" element={<Error />}/>
-          <Route path="/mygames" element={user ? <MyGames></MyGames> : <Navigate to="/error" replace={true}></Navigate>}/>
+          <Route path="/mygames" element={user ? <MyGames></MyGames> : <NotFound></NotFound>}/>
           <Route path="/login" element={!user ? <LogIn /> : <Navigate to="/" replace={true} /> } />
           <Route path="*" element={<NotFound></NotFound>}></Route>
         </Routes>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Typography, Box, Grid, Paper, Link, Card, CardContent, CardMedia } from '@mui/material';
 import headerBackground from "../images/header-background.jpg";
-import featuredPost1 from "../images/featured-post1.jpg"; // Image for MLB
-import featuredPost2 from "../images/featured-post2.jpeg"; // Image for NFL
+import featuredPost1 from "../images/featured-post1.jpg";
+import featuredPost2 from "../images/featured-post2.jpeg";
 
 export default function Home() {
     return (
@@ -72,7 +72,7 @@ export default function Home() {
                 
                 <Grid container spacing={5} style={{ marginTop: '40px' }}>
                     <Grid item xs={12} md={8}>
-                        <Typography variant="h6" gutterBottom>From the Firehose</Typography>
+                        <Typography variant="h6" gutterBottom>Latest News</Typography>
                         <hr />
                         
                         {/* First Blog Post */}

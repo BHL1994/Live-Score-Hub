@@ -9,7 +9,7 @@ const ScoreCard = ({ game, isLoggedIn }) => {
 
     useEffect(() => {
         const checkFavoriteStatus = async () => {
-            if (isLoggedIn) {
+            if (isLoggedIn && auth.user) {
                 try {
                     const response = await fetch(
                         `http://localhost:8080/api/notifications/user/${auth.user.app_user_id}/game/${game.game_id}`
@@ -27,11 +27,12 @@ const ScoreCard = ({ game, isLoggedIn }) => {
                 }
             }
         };
-    
+
         checkFavoriteStatus();
-    }, [game, isLoggedIn, auth.user.app_user_id]);
+    }, [game, isLoggedIn, auth.user]);
 
     const handleFavoriteClick = async () => {
+        if (!auth.user) return; 
         try {
             if (isFavorited) {
                 const response = await fetch(`http://localhost:8080/api/notifications?user_id=${auth.user.app_user_id}&game_id=${game.game_id}`, {
@@ -71,6 +72,23 @@ const ScoreCard = ({ game, isLoggedIn }) => {
             console.error('Error handling favorite click:', error);
         }
     };
+
+    const tickets = {
+        'NFL': "https://tinyurl.com/bdkew4wf",
+        'NBA': "https://tinyurl.com/383f7mkr",
+        'NHL': "https://tinyurl.com/4bkud7w5",
+        'MLB': "https://tinyurl.com/mu355aau",
+        'NCAAF': "https://tinyurl.com/6antc6b6",
+        'NCAAB': "https://tinyurl.com/bdc3dpn8"
+    };
+    const stats = {
+        'NFL': "https://tinyurl.com/2wd4hmxw",
+        'NBA': "https://tinyurl.com/3upfrwe9",
+        'NHL': "https://tinyurl.com/kaz4yppa",
+        'MLB': "https://tinyurl.com/3psdm6ev",
+        'NCAAF': "https://tinyurl.com/4p743uv9",
+        'NCAAB': "https://tinyurl.com/5n95hc4s"
+    }; 
 
     const isLive = game.game_status === 'in progress' || game.game_status === 'live';
     const isFinal = game.game_status === 'final';
@@ -128,58 +146,55 @@ const ScoreCard = ({ game, isLoggedIn }) => {
         </div>
     );
 
-
-
-
     return (
         <div className="card mb-3">
-        <h5 className="card-header">
-            {isLive ? <span className="text-danger">{gameStatusSymbol}</span> : gameStatusSymbol}
-        </h5>
-        <div className="card-body d-flex justify-content-between align-items-center">
-            <div className="d-flex align-items-center" style={{ flexBasis: '33%', justifyContent: 'flex-start' }}>
-            <div className="text-left">
-                <h6 className="text-muted">{game.away_id.city}</h6>
-                <h5 className="card-title">{game.away_id.team}</h5>
-                <img src={game.away_id.logo_url} alt={game.away_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
-            </div>
-            </div>
-            <div className="d-flex align-items-center justify-content-center" style={{ flexBasis: '33%', textAlign: 'center' }}>
-            {(isLive || isFinal) && (
-                <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.away_score}</p>
-            )}
-            {isLive && (
-                <div className="text-danger mx-1" style={{ margin: '0 0.5rem' }}>
-                    {gameMiddleText}
+            <h5 className="card-header">
+                {isLive ? <span className="text-danger">{gameStatusSymbol}</span> : gameStatusSymbol}
+            </h5>
+            <div className="card-body d-flex justify-content-between align-items-center">
+                <div className="d-flex align-items-center" style={{ flexBasis: '33%', justifyContent: 'flex-start' }}>
+                    <div className="text-left">
+                        <h6 className="text-muted">{game.away_id.city}</h6>
+                        <h5 className="card-title">{game.away_id.team}</h5>
+                        <img src={game.away_id.logo_url} alt={game.away_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
+                    </div>
                 </div>
-            )}
-            {(isLive || isFinal) && (
-                <p className={`card-text ${homeScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>
-                    {game.home_score}
-                </p>
-            )}
+                <div className="d-flex align-items-center justify-content-center" style={{ flexBasis: '33%', textAlign: 'center' }}>
+                    {(isLive || isFinal) && (
+                        <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.away_score}</p>
+                    )}
+                    {isLive && (
+                        <div className="text-danger mx-1" style={{ margin: '0 0.5rem' }}>
+                            {gameMiddleText}
+                        </div>
+                    )}
+                    {(isLive || isFinal) && (
+                        <p className={`card-text ${homeScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>
+                            {game.home_score}
+                        </p>
+                    )}
+                </div>
+                <div className="d-flex align-items-center" style={{ flexBasis: '33%', justifyContent: 'flex-end' }}>
+                    <div className="text-right">
+                        <h6 className="text-muted">{game.home_id.city}</h6>
+                        <h5 className="card-title">{game.home_id.team}</h5>
+                        <img src={game.home_id.logo_url} alt={game.home_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
+                    </div>
+                </div>
             </div>
-            <div className="d-flex align-items-center" style={{ flexBasis: '33%', justifyContent: 'flex-end' }}>
-            <div className="text-right">
-                <h6 className="text-muted">{game.home_id.city}</h6>
-                <h5 className="card-title">{game.home_id.team}</h5>
-                <img src={game.home_id.logo_url} alt={game.home_id.name} className="img-fluid" style={{ maxWidth: '50px' }} />
-            </div>
-            </div>
-        </div>
-        <div className="card-footer d-flex justify-content-between">
-            <a href={`https://tickets.${game.league.toLowerCase()}.com`} className="btn btn-link">Buy Tickets</a>
-            {isScheduled && isLoggedIn && !isMyGamesPage && (
-                <button 
-                    onClick={handleFavoriteClick} 
-                    className="btn btn-link"
-                    style={{color: isFavorited ? 'yellow' : '#000', textShadow: '0px 0px 1px black' }}
+            <div className="card-footer d-flex justify-content-between">
+                <a href={tickets[game.league]} className="btn btn-link" target='_blank'>Buy Tickets</a>
+                {isScheduled && isLoggedIn && !isMyGamesPage && (
+                    <button 
+                        onClick={handleFavoriteClick} 
+                        className="btn btn-link"
+                        style={{color: isFavorited ? 'yellow' : '#000', textShadow: '0px 0px 1px black' }}
                     >
-                    <i className={`bi ${isFavorited ? 'bi-star-fill' : 'bi-star'}`}></i>
-                </button>
+                        <i className={`bi ${isFavorited ? 'bi-star-fill' : 'bi-star'}`}></i>
+                    </button>
                 )}
-            <a href={`https://stats.${game.league.toLowerCase()}.com`} className="btn btn-link">View Stats</a>
-        </div>
+                <a href={stats[game.league]} className="btn btn-link" target='_blank'>View Stats</a>
+            </div>
         </div>
     );
 };

@@ -10,7 +10,7 @@ export default function Footer() {
                 color: 'white',
                 textAlign: 'center',
                 borderTop: '1px solid #ddd',
-                marginTop: 'auto' // Ensures footer sticks to the bottom
+                marginTop: 'auto'
             }}
         >
             <Grid container justifyContent="center" spacing={3}>

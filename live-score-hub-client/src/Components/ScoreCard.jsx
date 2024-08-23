@@ -148,6 +148,8 @@ const ScoreCard = ({ game, isLoggedIn }) => {
         </div>
     );
 
+    console.log(game.league);
+
 
     return (
         <div className="card mb-3">
@@ -166,7 +168,7 @@ const ScoreCard = ({ game, isLoggedIn }) => {
                     {(isLive || isFinal) && (
                         <p className={`card-text ${awayScoreClass}`} style={{ fontSize: '2rem', fontWeight: 'bold', margin: '0 0.5rem' }}>{game.away_score}</p>
                     )}
-                    {isLive || isScheduled && (
+                    {(isLive || isScheduled) && (
                         <div className="text-danger mx-1" style={{ margin: '0 0.5rem' }}>
                             {gameMiddleText}
                         </div>

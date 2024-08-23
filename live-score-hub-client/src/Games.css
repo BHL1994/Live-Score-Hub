@@ -19,12 +19,12 @@
 }
 
 .custom-calendar .react-datepicker__day:hover {
-    background-color: #007bff;
+    background-color:rgb(4, 30, 66);
     color: white;
 }
 
 .custom-calendar .react-datepicker__day--selected {
-    background-color: #007bff;
+    background-color: rgb(4, 30, 66);
     color: white;
     font-weight: bold;
 }
